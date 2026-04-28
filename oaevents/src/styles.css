@@ -1,0 +1,118 @@
+/* Estilos Globales */
+
+/* 1. Variables de Color y Tipografía */
+:root {
+  /* Paleta de Colores */
+  --primary-color: #11B75E;
+  --primary-color-hover: #0D944B;
+  --secondary-color: #F5D402;
+  --secondary-color-hover: #15D66E;
+
+  --bg-color: #F8F9FA;
+  --text-color: #212529;
+
+  /* Colores de Estado */
+  --success-color: #198754;
+  --error-color: #DC3545;
+  --warning-color: #FFC107;
+
+  /* Otros */
+  --input-border-color: #E9ECEF;
+  --disabled-bg-color: #E9ECEF;
+
+  /* Tipografía */
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Inter', sans-serif;
+}
+
+/* 2. Estilos Base del Body */
+body {
+  font-family: var(--font-secondary);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+/* 3. Estilos de Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+}
+
+h1 { font-size: 2.5rem; } /* 40px */
+h2 { font-size: 2rem; }   /* 32px */
+h3 { font-size: 1.5rem; } /* 24px */
+
+/* 4. Estilos de Botones */
+.btn-primary-custom {
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1);
+}
+
+.btn-primary-custom:hover:not(:disabled) {
+  background-color: var(--primary-color-hover);
+  transform: scale(1.02);
+}
+
+.btn-primary-custom:disabled {
+  background-color: var(--disabled-bg-color);
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* 5. Estilos de Inputs de Formulario */
+.custom-input {
+  font-family: var(--font-secondary);
+  background-color: white;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  padding: 12px 15px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.custom-input::placeholder {
+  color: #6c757d;
+}
+
+.custom-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(17, 183, 94, 0.25);
+  outline: none;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* 6. Estilos de Error */
+.error-text {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.custom-input.is-invalid,
+.custom-input.ng-invalid.ng-touched {
+  border-color: var(--error-color);
+}
+
+.custom-input.is-invalid:focus,
+.custom-input.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+/* 7. Utilidades */
+.cursor-pointer {
+  cursor: pointer;
+}

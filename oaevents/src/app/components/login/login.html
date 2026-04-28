@@ -1,0 +1,67 @@
+<div class="login-wrapper d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 p-md-5 shadow-lg login-card">
+    <div class="text-center mb-4">
+      <!-- Se puede poner aquí un logo del Olivo Arena si existiera -->
+      <h2 class="fw-bold" style="color: var(--primary-color);">AOEvents</h2>
+      <p class="text-muted">Inicia sesión para acceder a tu cuenta</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="entrar()">
+
+      <div class="form-group mb-3">
+        <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control custom-input"
+          [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          formControlName="email"
+          placeholder="usuario@ejemplo.com">
+
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <div class="error-text">
+            @if (loginForm.get('email')?.errors?.['required']) {
+              El correo es obligatorio.
+            } @else if (loginForm.get('email')?.errors?.['email']) {
+              El formato del correo es incorrecto.
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+        <div class="input-group">
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="contrasena"
+            class="form-control custom-input"
+            [class.is-invalid]="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched"
+            formControlName="contrasena"
+            placeholder="••••••••">
+
+          <span class="input-group-text cursor-pointer toggle-btn" (click)="toggleContrasena()" [class.border-danger]="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched">
+            <span class="material-symbols-outlined icon-size">
+              {{ verContrasena ? 'visibility_off' : 'visibility' }}
+            </span>
+          </span>
+        </div>
+
+        @if (loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched) {
+          <div class="error-text">
+            @if (loginForm.get('contrasena')?.errors?.['required']) {
+              La contraseña es obligatoria.
+            } @else {
+              Mínimo 8 caracteres, una letra y un número.
+            }
+          </div>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary-custom w-100 py-2 mt-2" [disabled]="loginForm.invalid">
+        <span class="fw-bold">ENTRAR</span>
+      </button>
+
+    </form>
+  </div>
+</div>
