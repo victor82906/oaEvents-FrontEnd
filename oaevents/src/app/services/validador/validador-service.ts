@@ -14,19 +14,19 @@ export class ValidadorService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<ValidadorOutputDto[]> {
-    return this.http.get<ValidadorOutputDto[]>(this.urlValidador);
+    return this.http.get(this.urlValidador);
   }
 
   findById(id: number): Observable<ValidadorOutputDto> {
-    return this.http.get<ValidadorOutputDto>(this.urlValidador + '/' + id);
+    return this.http.get(this.urlValidador + '/' + id);
   }
 
   save(validador: ValidadorInputDto): Observable<ValidadorOutputDto> {
-    return this.http.post<ValidadorOutputDto>(this.urlValidador, validador);
+    return this.http.post(this.urlValidador, validador);
   }
 
   update(id: number, validador: ValidadorInputDto): Observable<ValidadorOutputDto> {
-    return this.http.put<ValidadorOutputDto>(this.urlValidador + '/' + id, validador)
+    return this.http.put(this.urlValidador + '/' + id, validador)
   }
 
   deleteById(id: number): Observable<any> {
