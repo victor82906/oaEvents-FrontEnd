@@ -4,6 +4,7 @@ import { FormGroup, ReactiveFormsModule, FormControl, Validators } from "@angula
 import {Router, RouterLink } from "@angular/router";
 import {LoginService} from '../../services/login/login-service';
 import {AuthService} from '../../services/auth/auth-service';
+import {LoginRequest} from '../../model/usuario';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class Login implements OnInit{
   entrar() {
     if (this.loginForm.valid) {
       this.login.logout();
-      this.login.getTokenFromServer(this.loginForm.value).subscribe({
+      const loginRequest: LoginRequest = this.loginForm.value;
+      this.login.getTokenFromServer(loginRequest).subscribe({
         next: (respuesta) => {
           const token = respuesta.token;
           this.login.setToken(token);

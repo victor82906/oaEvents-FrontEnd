@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { QrOutputDto, QrInputDto } from '../../model/qr';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class QrService {
+
+  private urlQr = environment.apiUrl + "/qr";
+
+  constructor(private http: HttpClient){}
+
+  findAll(): Observable<QrOutputDto[]> {
+    return this.http.get(this.urlQr);
+  }
+
+  findById(id: number): Observable<QrOutputDto> {
+    return this.http.get(this.urlQr + '/' + id);
+  }
+
+  save(qr: QrInputDto): Observable<QrOutputDto> {
+    return this.http.post(this.urlQr, qr);
+  }
+
+  update(id: number, qr: QrInputDto): Observable<QrOutputDto> {
+    return this.http.put(this.urlQr + '/' + id, qr)
+  }
+
+  deleteById(id: number): Observable<any> {
+    return this.http.delete(this.urlQr + '/' + id);
+  }
+
+}

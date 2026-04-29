@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {LoginRequest, UsuarioOutputDto} from '../../model/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +14,11 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  getTokenFromServer(usuario: any): Observable<any> {
+  getTokenFromServer(usuario: LoginRequest): Observable<any> {
     return this.http.post(this.urlToken, usuario);
   }
 
-  getUsuarioFromServer(token: string): Observable<any> {
+  getUsuarioFromServer(token: string): Observable<UsuarioOutputDto> {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.get(this.urlUsuario, {headers});
   }
@@ -31,7 +32,7 @@ export class LoginService {
     localStorage.setItem('auth_token', token);
   }
 
-  setUsuario(usuario: any): void {
+  setUsuario(usuario: UsuarioOutputDto): void {
     localStorage.setItem('usuario', JSON.stringify(usuario));
   }
 

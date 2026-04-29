@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {CambiarContrasenaDto, UsuarioOutputDto} from '../../model/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  getUser(): any{
+  getUser(): UsuarioOutputDto{
     return JSON.parse(localStorage.getItem('usuario') || '{}');
   }
 
@@ -31,11 +32,11 @@ export class AuthService {
     return localStorage.getItem('auth_token');
   }
 
-  getUserById(id: number): any {
+  getUserById(id: number): UsuarioOutputDto {
     return this.http.get(this.apiUrl + "/usuario/" + id);
   }
 
-  cambiarContrasena(id: number, contrasenas: any){
+  cambiarContrasena(id: number, contrasenas: CambiarContrasenaDto){
     return this.http.post(this.apiUrl + "/usuario/contrasena/" + id, contrasenas);
   }
 
