@@ -14,19 +14,19 @@ export class EmpresaService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<EmpresaOutputDto[]> {
-    return this.http.get(this.urlEmpresa);
+    return this.http.get<EmpresaOutputDto[]>(this.urlEmpresa);
   }
 
   findById(id: number): Observable<EmpresaOutputDto> {
-    return this.http.get(this.urlEmpresa + '/' + id);
+    return this.http.get<EmpresaOutputDto>(this.urlEmpresa + '/' + id);
   }
 
   save(empresa: EmpresaInputDto): Observable<EmpresaOutputDto> {
-    return this.http.post(this.urlEmpresa, empresa);
+    return this.http.post<EmpresaOutputDto>(this.urlEmpresa, empresa);
   }
 
   update(id: number, empresa: EmpresaInputDto): Observable<EmpresaOutputDto> {
-    return this.http.put(this.urlEmpresa + '/' + id, empresa)
+    return this.http.put<EmpresaOutputDto>(this.urlEmpresa + '/' + id, empresa)
   }
 
   deleteById(id: number): Observable<any> {

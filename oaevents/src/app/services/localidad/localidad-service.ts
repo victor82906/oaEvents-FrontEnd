@@ -14,19 +14,23 @@ export class LocalidadService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<LocalidadOutputDto[]> {
-    return this.http.get(this.urlLocalidad);
+    return this.http.get<LocalidadOutputDto[]>(this.urlLocalidad);
   }
 
   findById(id: number): Observable<LocalidadOutputDto> {
-    return this.http.get(this.urlLocalidad + '/' + id);
+    return this.http.get<LocalidadOutputDto>(this.urlLocalidad + '/' + id);
+  }
+
+  findByZonaId(zonaId: number): Observable<LocalidadOutputDto[]> {
+    return this.http.get<LocalidadOutputDto[]>(this.urlLocalidad + '/zona/' + zonaId);
   }
 
   save(localidad: LocalidadInputDto): Observable<LocalidadOutputDto> {
-    return this.http.post(this.urlLocalidad, localidad);
+    return this.http.post<LocalidadOutputDto>(this.urlLocalidad, localidad);
   }
 
   update(id: number, localidad: LocalidadInputDto): Observable<LocalidadOutputDto> {
-    return this.http.put(this.urlLocalidad + '/' + id, localidad)
+    return this.http.put<LocalidadOutputDto>(this.urlLocalidad + '/' + id, localidad)
   }
 
   deleteById(id: number): Observable<any> {

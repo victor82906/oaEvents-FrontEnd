@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {CambiarContrasenaDto, UsuarioOutputDto} from '../../model/usuario';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,12 +33,12 @@ export class AuthService {
     return localStorage.getItem('auth_token');
   }
 
-  getUserById(id: number): UsuarioOutputDto {
-    return this.http.get(this.apiUrl + "/usuario/" + id);
+  getUserById(id: number): Observable<UsuarioOutputDto> {
+    return this.http.get<UsuarioOutputDto>(this.apiUrl + "/usuario/" + id);
   }
 
-  cambiarContrasena(id: number, contrasenas: CambiarContrasenaDto){
-    return this.http.post(this.apiUrl + "/usuario/contrasena/" + id, contrasenas);
+  cambiarContrasena(id: number, contrasenas: CambiarContrasenaDto): Observable<any>{
+    return this.http.post<any>(this.apiUrl + "/usuario/contrasena/" + id, contrasenas);
   }
 
   isAuth(): boolean {

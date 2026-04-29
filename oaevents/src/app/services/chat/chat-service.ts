@@ -14,19 +14,19 @@ export class ChatService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<ChatOutputDto[]> {
-    return this.http.get(this.urlChat);
+    return this.http.get<ChatOutputDto[]>(this.urlChat);
   }
 
   findById(id: number): Observable<ChatOutputDto> {
-    return this.http.get(this.urlChat + '/' + id);
+    return this.http.get<ChatOutputDto>(this.urlChat + '/' + id);
   }
 
   save(chat: ChatInputDto): Observable<ChatOutputDto> {
-    return this.http.post(this.urlChat, chat);
+    return this.http.post<ChatOutputDto>(this.urlChat, chat);
   }
 
   update(id: number, chat: ChatInputDto): Observable<ChatOutputDto> {
-    return this.http.put(this.urlChat + '/' + id, chat)
+    return this.http.put<ChatOutputDto>(this.urlChat + '/' + id, chat)
   }
 
   deleteById(id: number): Observable<any> {
@@ -39,7 +39,7 @@ export class ChatService {
       .set('size', size.toString())
       .set('sort', sort);
 
-    return this.http.get(`${this.urlChat}/conversacion/${emisorId}/${receptorId}`, { params });
+    return this.http.get<ChatOutputDto[]>(`${this.urlChat}/conversacion/${emisorId}/${receptorId}`, { params });
   }
 
 }

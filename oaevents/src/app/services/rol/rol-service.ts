@@ -14,19 +14,19 @@ export class RolService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<RolOutputDto[]> {
-    return this.http.get(this.urlRol);
+    return this.http.get<RolOutputDto[]>(this.urlRol);
   }
 
   findById(id: number): Observable<RolOutputDto> {
-    return this.http.get(this.urlRol + '/' + id);
+    return this.http.get<RolOutputDto>(this.urlRol + '/' + id);
   }
 
   save(rol: RolInputDto): Observable<RolOutputDto> {
-    return this.http.post(this.urlRol, rol);
+    return this.http.post<RolOutputDto>(this.urlRol, rol);
   }
 
   update(id: number, rol: RolInputDto): Observable<RolOutputDto> {
-    return this.http.put(this.urlRol + '/' + id, rol)
+    return this.http.put<RolOutputDto>(this.urlRol + '/' + id, rol)
   }
 
   deleteById(id: number): Observable<any> {

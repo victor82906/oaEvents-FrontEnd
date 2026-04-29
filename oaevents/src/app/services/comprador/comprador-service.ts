@@ -14,19 +14,19 @@ export class CompradorService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<CompradorOutputDto[]> {
-    return this.http.get(this.urlComprador);
+    return this.http.get<CompradorOutputDto[]>(this.urlComprador);
   }
 
   findById(id: number): Observable<CompradorOutputDto> {
-    return this.http.get(this.urlComprador + '/' + id);
+    return this.http.get<CompradorOutputDto>(this.urlComprador + '/' + id);
   }
 
   save(comprador: CompradorOutputDto): Observable<CompradorOutputDto> {
-    return this.http.post(this.urlComprador, comprador);
+    return this.http.post<CompradorOutputDto>(this.urlComprador, comprador);
   }
 
   update(id: number, comprador: CompradorOutputDto): Observable<CompradorOutputDto> {
-    return this.http.put(this.urlComprador + '/' + id, comprador)
+    return this.http.put<CompradorOutputDto>(this.urlComprador + '/' + id, comprador)
   }
 
   deleteById(id: number): Observable<any> {

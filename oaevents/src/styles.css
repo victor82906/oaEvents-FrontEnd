@@ -116,3 +116,176 @@ h3 { font-size: 1.5rem; } /* 24px */
 .cursor-pointer {
   cursor: pointer;
 }
+
+/*
+1. Componentes de Interfaz
+1.1 Elementos de Identificación
+    El objetivo de estos elementos es mantener la consistencia de la marca en toda la navegación y aportar confianza al usuario:
+
+    Logotipo y Nombre de la Aplicación
+    Se utilizará el logotipo oficial compuesto por el isotipo (aros entrelazados) y el texto "oaevents". En la esquina superior izquierda del Header. Con un tamaño aproximado de 160x40 píxeles en escritorio, escalado a 120x30 píxeles en dispositivos móviles.
+
+                                                                                                                                                                                                                              Favicon
+                                                                                                                                                                                                                              Se empleará el isotipo en solitario (los aros verde y amarillo) para maximizar su reconocimiento en las pestañas del navegador. Tamaño estándar de 32x32px.
+
+                                                                                                                                                                                                                                                                                                                                                                                   Header Corporativo
+                                                                                                                                                                                                                                                                                                                                                                                   Barra superior de navegación estática (pegajosa o sticky) con fondo blanco puro (#FFFFFF) y una sombra sutil (box-shadow) inferior. Estará visible en el 100% de las pantallas de la aplicación. Muestra los elementos alineados horizontalmente. Para el móvil reduce su altura, el logotipo se centra o se mantiene a la izquierda y los enlaces se ocultan tras un botón hamburguesa.
+
+Pie de Página
+Elemento de cierre de la página con fondo gris oscuro (#212529). Situado al final del contenido principal de cada vista. Dividido en columnas (Logo, Enlaces de interés, Redes Sociales del Olivo Arena, y sección de Información legal: Términos de Uso, Privacidad y Contacto). Se muestra en 4 columnas y en dispositivos móvil y apila sus columnas verticalmente.
+
+1.2 Elementos de Navegación
+    Los mecanismos de desplazamiento están diseñados para minimizar los clics necesarios para llegar al proceso de compra o gestión.
+
+    Menú Principal
+    Escritorio: Menú horizontal integrado en el Header con enlaces directos a "Eventos", "Deportes", "Conciertos". En móvil tiene un menú tipo "Hamburguesa" que despliega un panel lateral derecho limpio y accesible.
+
+                                                                                                                                                             Barra Lateral
+                                                                                                                                                             Reservada exclusivamente para el entorno B2B (Administrador, Empresa Organizadora y Recinto). Permite una navegación profunda por los módulos de gestión (Usuarios, Ventas, Informes).
+
+                                                                                                                                                                                                                                                                                                                                                  Buscador
+                                                                                                                                                                                                                                                                                                                                                  Integrado de forma prominente en el Header mediante un campo de texto con el icono de una lupa (Material Icons), permitiendo la búsqueda predictiva de eventos o artistas.
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Menús Desplegables
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Utilizados en el perfil del usuario logueado (haciendo clic en su avatar en el Header) para acceder a "Mis Entradas", "Ajustes" y "Cerrar Sesión".
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Botones de Acción Principal
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Botones destacados en color Verde Corporativo (#11B75E). El CTA más importante será siempre "Comprar Entradas".
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Justificación de UX y Adaptación
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Se ha elegido este esquema mixto (Top-bar para cliente final B2C y Sidebar para gestión B2B) porque respeta los estándares mentales de los usuarios. El cliente final busca explorar visualmente (mejor en horizontal), mientras que el gestor busca herramientas y listados (mejor organizados en vertical). En móviles, todo se simplifica en el menú hamburguesa para maximizar el espacio táctil.
+1.3 Elementos de Contenidos e Interacción
+    Para garantizar un funcionamiento fluido en Angular, se definen los siguientes componentes reutilizables
+
+Tarjetas (Cards)
+Contenedor visual para mostrar el resumen de un evento. Incluyen imagen de cabecera, etiquetas (tags), título, fecha y botón de compra.
+Al hacer hover (pasar el ratón), la tarjeta se eleva ligeramente (sombra ampliada) para invitar al clic.
+
+                                                                                   Formularios y Campos de Entrada
+                                                                                   Recopilación de datos (Login, Registro, Pago, Creación de eventos).
+                                                                                                                                                     Activo/Focus: El borde del input se ilumina en color verde.
+                                                                                                                                                            Error: El borde se vuelve rojo y aparece un mensaje de validación descriptivo debajo (ej. "El DNI es incorrecto").
+
+                                                                                                                                                                                                                                                                             Botones
+                                                                                                                                                                                                                                                                             Estados: Hover (oscurecimiento de fondo), Active (efecto de pulsación), Disabled (opacidad al 50% y color gris para indicar que falta rellenar algún campo).
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Modales
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Ventanas emergentes superpuestas al contenido principal. Se usarán para acciones críticas (ej. Confirmar la reventa de una entrada o mostrar el selector de asientos del Olivo Arena).
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Bloquean el fondo con una capa semitransparente oscura (backdrop). Incluyen siempre un botón "X" o "Cancelar" para poder escapar.
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Tablas de Datos
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Mostrar listados complejos (Usuarios, Ventas, Validación de QR) en el panel de administrador. Contarán con ordenación por columnas, filtros de búsqueda y acciones por fila (Editar/Eliminar).
+2. Guia de Estilo
+2.1 Logotipo y Favicon
+    Diseño
+    Para realizar el diseño he optado por seguir la línea del propio olivo aren, por lo que he partido del propio logotipo y sobre ese he hecho modificaciones.
+
+Versiones
+Principal (Horizontal): Símbolo a la izquierda, texto a la derecha. Uso en el header (tamaño recomendado: 180x40px en escritorio, 140x32px en móvil).
+
+
+                                                                                                                                                    Isotipo: Para un uso más básico y minimalista.
+
+
+
+
+                                                                                                                                                    Favicon
+                                                                                                                                                    Esta aplicación usa como favicon el mismo isotipo en formato 32x32, para consolidar ese logo característico.
+
+2.2 Tipografía
+    Para la implementación de la tipografía usaré la herramienta de Google Fonts.
+
+    Fuente principal
+    Montserrat
+- Títulos
+- Botones
+  H1 -> 2.5rem / 40px   |   H2 -> 2rem / 32px   |  H3 -> 1.5rem / 24px
+
+
+
+
+                                                                    Fuente secundaria
+                                                                    Inter
+- Texto base
+- Formularios.
+1rem / 16px   |   Interlineado -> 1.5 y 1.2
+
+
+
+2.3 Colores
+    Color primario
+    Como color primario usare este verde y una mínima alteración suya para algunos hovers.
+    #11B75E		#0D944B
+    Principal		Hover
+
+
+
+    Color secundario
+    Como color secundario elijo este verde y como antes uno parecido para alguno de los hovers.
+    #F5D402		#D1B200
+    Principal		Hover
+
+
+    Colores de apoyo
+    Colores para fondos, algunos textos, etc.
+#F8F9FA		#212529
+
+
+
+
+Colores de estado
+#198754				#DC3545				#FFC107
+Éxito					Error/Peligro				Advertencia
+
+
+
+
+
+2.4 Botones
+    Primario
+    Para los botones primarios utilizo el tono verde que he utilizado para el color principal, (#11B75E). Lo combinó con un texto blanco o en cambio con algún icono blanco. No utilizo borde para este tipo de botones.
+                                                                                                        Lo uso para acciones de confirmación cómo Pagar, Guardar ….
+
+
+Secundario
+Para los botones secundarios utilizó un botón “Outlined” con el fondo transparente. Combinado con un texto o icono de tono verde, (#11B75E). Utilizo un borde que para el outlined de 2px y de el mismo color que el texto.
+                                                                                                                                                                                       El uso es para acciones alternativas como Cancelar, Volver, moverme entre secciones ….
+
+Estados
+Hover -> Oscurezco el fondo en un 10% y lo hago ligeramente más grande con una transición de 0.2 segundos.
+                                                                                                 Disabled -> Uso un tono gris claro para el fondo, (#E9ECEF). El cursor lo pongo en modo “not-allowed”.
+                                                                                                                                                            Loading → El texto lo sustituyo por un icono tipo spinner rotando.
+
+
+
+                                                                                                                                                            Excepciones
+- Para ciertos botones como warnings he usado todos rojos o tonos más acordes al tipo de botón, para una mejor usabilidad y que el usuario se alarme de lo que puede llegar a ocurrir o donde pueda llevarle el botón en concreto.
+- Para los botones en los que ha sido necesario, he usado iconos de los que expongo en la sección de iconos utilizados, sustituyendo al texto. Ya que para la Interfaz de Usuario pueden ser más cómodos y representativos visualmente.
+
+2.5 Inputs
+    Visualmente los inputs en los formularios tienen un estilo visual con un fondo blanco. El borde tiene un tono gris clarito (#E9ECEF). Los labels estarán encima de los inputs con un estilo en negrita para que se vean bien.
+                                                                                                                                        Algunos inputs tienen un placeholder explicativo o de ejemplo, que ayuda al usuario a mejorar su experiencia.
+
+
+
+
+Interacción
+Focus -> Cuando hagamos focus sobre un input, este pasa a tener un borde con el tono de color primario (#11B75E). También se le aplica un ligero box-shadow del mismo color.
+
+
+
+
+
+
+                                                                                                                Error -> Cuando el valor del input es incorrecto y el focus ha cesado se le aplica un borde rojo (#DC3545), con el tipo de error debajo del input.
+
+
+
+
+
+
+2.6 Iconos
+    Utilizo la librería oficial de Google Material Symbols and Icons. Para implementarla, básicamente al usar Angular, importo la librería de Material Icons, en concreto la Outlined, ya que esta misma es creada por Google y usa tales iconos.
+Esta decisión permite modificar el color, grosor y tamaño de los iconos directamente desde las hojas de estilo, reduciendo drásticamente el peso de carga de la aplicación y mejorando el rendimiento del frontend en Angular.
+El tamaño estándar es de 24px para usarlos con textos y de 20px cuando los uso simplemente en botones.
+*/

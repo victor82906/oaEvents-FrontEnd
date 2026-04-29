@@ -14,19 +14,23 @@ export class ZonaService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<ZonaOutputDto[]> {
-    return this.http.get(this.urlZona);
+    return this.http.get<ZonaOutputDto[]>(this.urlZona);
   }
 
   findById(id: number): Observable<ZonaOutputDto> {
-    return this.http.get(this.urlZona + '/' + id);
+    return this.http.get<ZonaOutputDto>(this.urlZona + '/' + id);
+  }
+
+  findByRecintoId(recinto_id: number): Observable<ZonaOutputDto[]> {
+    return this.http.get<ZonaOutputDto[]>(this.urlZona + '/recinto/' + recinto_id);
   }
 
   save(zona: ZonaInputDto): Observable<ZonaOutputDto> {
-    return this.http.post(this.urlZona, zona);
+    return this.http.post<ZonaOutputDto>(this.urlZona, zona);
   }
 
   update(id: number, zona: ZonaInputDto): Observable<ZonaOutputDto> {
-    return this.http.put(this.urlZona + '/' + id, zona)
+    return this.http.put<ZonaOutputDto>(this.urlZona + '/' + id, zona)
   }
 
   deleteById(id: number): Observable<any> {

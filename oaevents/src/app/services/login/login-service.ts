@@ -15,12 +15,12 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   getTokenFromServer(usuario: LoginRequest): Observable<any> {
-    return this.http.post(this.urlToken, usuario);
+    return this.http.post<any>(this.urlToken, usuario);
   }
 
   getUsuarioFromServer(token: string): Observable<UsuarioOutputDto> {
     const headers = { 'Authorization': `Bearer ${token}` };
-    return this.http.get(this.urlUsuario, {headers});
+    return this.http.get<UsuarioOutputDto>(this.urlUsuario, {headers});
   }
 
   logout(): void {

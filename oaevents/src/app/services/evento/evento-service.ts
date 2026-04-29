@@ -14,19 +14,19 @@ export class EventoService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<EventoOutputDto[]> {
-    return this.http.get(this.urlEvento);
+    return this.http.get<EventoOutputDto[]>(this.urlEvento);
   }
 
   findById(id: number): Observable<EventoOutputDto> {
-    return this.http.get(this.urlEvento + '/' + id);
+    return this.http.get<EventoOutputDto>(this.urlEvento + '/' + id);
   }
 
   save(evento: EventoInputDto): Observable<EventoOutputDto> {
-    return this.http.post(this.urlEvento, evento);
+    return this.http.post<EventoOutputDto>(this.urlEvento, evento);
   }
 
   update(id: number, evento: EventoInputDto): Observable<EventoOutputDto> {
-    return this.http.put(this.urlEvento + '/' + id, evento)
+    return this.http.put<EventoOutputDto>(this.urlEvento + '/' + id, evento)
   }
 
   deleteById(id: number): Observable<any> {

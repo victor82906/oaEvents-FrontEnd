@@ -14,19 +14,19 @@ export class UsuarioService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<UsuarioOutputDto[]> {
-    return this.http.get(this.urlUsuario);
+    return this.http.get<UsuarioOutputDto[]>(this.urlUsuario);
   }
 
   findById(id: number): Observable<UsuarioOutputDto> {
-    return this.http.get(this.urlUsuario + '/' + id);
+    return this.http.get<UsuarioOutputDto>(this.urlUsuario + '/' + id);
   }
 
   save(usuario: UsuarioInputDto): Observable<UsuarioOutputDto> {
-    return this.http.post(this.urlUsuario, usuario);
+    return this.http.post<UsuarioOutputDto>(this.urlUsuario, usuario);
   }
 
   update(id: number, usuario: UsuarioInputDto): Observable<UsuarioOutputDto> {
-    return this.http.put(this.urlUsuario + '/' + id, usuario)
+    return this.http.put<UsuarioOutputDto>(this.urlUsuario + '/' + id, usuario)
   }
 
   deleteById(id: number): Observable<any> {

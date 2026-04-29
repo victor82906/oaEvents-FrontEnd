@@ -14,19 +14,19 @@ export class EntradaService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<EntradaOutputDto[]> {
-    return this.http.get(this.urlEntrada);
+    return this.http.get<EntradaOutputDto[]>(this.urlEntrada);
   }
 
   findById(id: number): Observable<EntradaOutputDto> {
-    return this.http.get(this.urlEntrada + '/' + id);
+    return this.http.get<EntradaOutputDto>(this.urlEntrada + '/' + id);
   }
 
   save(entrada: EntradaInputDto): Observable<EntradaOutputDto> {
-    return this.http.post(this.urlEntrada, entrada);
+    return this.http.post<EntradaOutputDto>(this.urlEntrada, entrada);
   }
 
   update(id: number, entrada: EntradaInputDto): Observable<EntradaOutputDto> {
-    return this.http.put(this.urlEntrada + '/' + id, entrada)
+    return this.http.put<EntradaOutputDto>(this.urlEntrada + '/' + id, entrada)
   }
 
   deleteById(id: number): Observable<any> {

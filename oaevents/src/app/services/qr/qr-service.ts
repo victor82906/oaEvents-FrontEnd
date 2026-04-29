@@ -14,19 +14,19 @@ export class QrService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<QrOutputDto[]> {
-    return this.http.get(this.urlQr);
+    return this.http.get<QrOutputDto[]>(this.urlQr);
   }
 
   findById(id: number): Observable<QrOutputDto> {
-    return this.http.get(this.urlQr + '/' + id);
+    return this.http.get<QrOutputDto>(this.urlQr + '/' + id);
   }
 
   save(qr: QrInputDto): Observable<QrOutputDto> {
-    return this.http.post(this.urlQr, qr);
+    return this.http.post<QrOutputDto>(this.urlQr, qr);
   }
 
   update(id: number, qr: QrInputDto): Observable<QrOutputDto> {
-    return this.http.put(this.urlQr + '/' + id, qr)
+    return this.http.put<QrOutputDto>(this.urlQr + '/' + id, qr)
   }
 
   deleteById(id: number): Observable<any> {

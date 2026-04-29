@@ -14,19 +14,19 @@ export class RecintoService {
   constructor(private http: HttpClient){}
 
   findAll(): Observable<RecintoOutputDto[]> {
-    return this.http.get(this.urlRecinto);
+    return this.http.get<RecintoOutputDto[]>(this.urlRecinto);
   }
 
   findById(id: number): Observable<RecintoOutputDto> {
-    return this.http.get(this.urlRecinto + '/' + id);
+    return this.http.get<RecintoOutputDto>(this.urlRecinto + '/' + id);
   }
 
   save(recinto: RecintoInputDto): Observable<RecintoOutputDto> {
-    return this.http.post(this.urlRecinto, recinto);
+    return this.http.post<RecintoOutputDto>(this.urlRecinto, recinto);
   }
 
   update(id: number, recinto: RecintoInputDto): Observable<RecintoOutputDto> {
-    return this.http.put(this.urlRecinto + '/' + id, recinto)
+    return this.http.put<RecintoOutputDto>(this.urlRecinto + '/' + id, recinto)
   }
 
   deleteById(id: number): Observable<any> {
