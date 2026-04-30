@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ChatOutputDto, ChatInputDto } from '../../model/chat';
+import {Page} from '../../model/page';
 
 @Injectable({
   providedIn: 'root',
@@ -33,13 +34,13 @@ export class ChatService {
     return this.http.delete(this.urlChat + '/' + id);
   }
 
-  getConversacion(emisorId: number, receptorId: number, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<ChatOutputDto[]> {
+  getConversacion(emisorId: number, receptorId: number, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<ChatOutputDto>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
       .set('sort', sort);
 
-    return this.http.get<ChatOutputDto[]>(`${this.urlChat}/conversacion/${emisorId}/${receptorId}`, { params });
+    return this.http.get<Page<ChatOutputDto>>(`${this.urlChat}/conversacion/${emisorId}/${receptorId}`, { params });
   }
 
 }

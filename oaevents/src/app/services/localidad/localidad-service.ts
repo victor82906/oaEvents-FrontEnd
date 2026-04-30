@@ -17,12 +17,16 @@ export class LocalidadService {
     return this.http.get<LocalidadOutputDto[]>(this.urlLocalidad);
   }
 
-  findById(id: number): Observable<LocalidadOutputDto> {
-    return this.http.get<LocalidadOutputDto>(this.urlLocalidad + '/' + id);
-  }
-
   findByZonaId(zonaId: number): Observable<LocalidadOutputDto[]> {
     return this.http.get<LocalidadOutputDto[]>(this.urlLocalidad + '/zona/' + zonaId);
+  }
+
+  findLocalidadesLibres(zonaEventoId: number): Observable<LocalidadOutputDto[]> {
+    return this.http.get<LocalidadOutputDto[]>(this.urlLocalidad + '/' + zonaEventoId + '/libres');
+  }
+
+  findById(id: number): Observable<LocalidadOutputDto> {
+    return this.http.get<LocalidadOutputDto>(this.urlLocalidad + '/' + id);
   }
 
   save(localidad: LocalidadInputDto): Observable<LocalidadOutputDto> {

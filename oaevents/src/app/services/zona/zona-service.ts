@@ -21,8 +21,8 @@ export class ZonaService {
     return this.http.get<ZonaOutputDto>(this.urlZona + '/' + id);
   }
 
-  findByRecintoId(recinto_id: number): Observable<ZonaOutputDto[]> {
-    return this.http.get<ZonaOutputDto[]>(this.urlZona + '/recinto/' + recinto_id);
+  findByRecintoId(recintoId: number): Observable<ZonaOutputDto[]> {
+    return this.http.get<ZonaOutputDto[]>(this.urlZona + '/recinto/' + recintoId);
   }
 
   save(zona: ZonaInputDto): Observable<ZonaOutputDto> {

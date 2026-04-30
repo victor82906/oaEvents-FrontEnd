@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {CompradorOutputDto} from '../../model/comprador';
+import {Page} from '../../model/page';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,23 @@ export class CompradorService {
 
   findAll(): Observable<CompradorOutputDto[]> {
     return this.http.get<CompradorOutputDto[]>(this.urlComprador);
+  }
+
+  findAllPaged(page: number = 0, size: number = 10): Observable<Page<CompradorOutputDto>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/page', { params });
+  }
+
+  buscar(termino: string, page: number = 0, size: number = 10): Observable<Page<CompradorOutputDto>> {
+    let params = new HttpParams()
+      .set('termino', termino)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/buscar/page', { params });
   }
 
   findById(id: number): Observable<CompradorOutputDto> {

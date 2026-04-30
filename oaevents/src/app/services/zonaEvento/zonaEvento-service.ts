@@ -17,6 +17,10 @@ export class ZonaEventoService {
     return this.http.get<ZonaEventoOutputDto[]>(this.urlZonaEvento);
   }
 
+  findByEventoId(eventoId: number): Observable<ZonaEventoOutputDto[]> {
+    return this.http.get<ZonaEventoOutputDto[]>(this.urlZonaEvento + '/evento/' + eventoId);
+  }
+
   findById(id: number): Observable<ZonaEventoOutputDto> {
     return this.http.get<ZonaEventoOutputDto>(this.urlZonaEvento + '/' + id);
   }

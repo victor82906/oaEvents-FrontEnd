@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { UsuarioOutputDto, UsuarioInputDto } from '../../model/usuario';
+import { UsuarioOutputDto, UsuarioInputDto, CambiarContrasenaDto } from '../../model/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +31,10 @@ export class UsuarioService {
 
   deleteById(id: number): Observable<any> {
     return this.http.delete(this.urlUsuario + '/' + id);
+  }
+
+  cambiarContrasena(id: number, cambiarContrasenaDto: CambiarContrasenaDto): Observable<{ mensaje: string }> {
+    return this.http.post<{ mensaje: string }>(this.urlUsuario + '/' + id + '/contrasena', cambiarContrasenaDto);
   }
 
 }

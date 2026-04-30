@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ValidadorOutputDto, ValidadorInputDto } from '../../model/validador';
+import { Page } from '../../model/page';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,14 @@ export class ValidadorService {
 
   findAll(): Observable<ValidadorOutputDto[]> {
     return this.http.get<ValidadorOutputDto[]>(this.urlValidador);
+  }
+
+  findAllPaged(page: number = 0, size: number = 10): Observable<Page<ValidadorOutputDto>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<ValidadorOutputDto>>(this.urlValidador + '/page', { params });
   }
 
   findById(id: number): Observable<ValidadorOutputDto> {
