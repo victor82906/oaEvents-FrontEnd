@@ -11,7 +11,6 @@ export interface ZonaOutputDto {
   numero: string;
   coordenadas: string;
   puertaEntrada: string;
+  pista: boolean;
   recinto_id: number;
-  localidades_id: number[];
-  zonaEventos_id: number[];
 }

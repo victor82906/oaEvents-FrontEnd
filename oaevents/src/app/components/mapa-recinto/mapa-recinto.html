@@ -1,86 +1,112 @@
-<div class="mapa-recinto-container">
-  @if (!cargando && recinto) {
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
 
-    <div class="cabecera-mapa">
-      <!-- Botón de volver atrás (solo visible si estamos viendo asientos) -->
-      @if (modoAsientos) {
-        <button class="btn-volver" (click)="volverAZonas()">
-          <span class="material-symbols-outlined">arrow_back</span> Volver a zonas
-        </button>
-      }
-      <h2>{{ recinto.nombre }}</h2>
-    </div>
-
-    <div class="svg-container">
-      <svg [attr.viewBox]="recinto.mapa" preserveAspectRatio="xMidYMid meet">
-
-        <!-- VISTA 1: ZONAS -->
-        @if (!modoAsientos) {
-          @for (zona of zonas; track zona.id) {
-            <!-- Polígono de la zona -->
-            <polygon
-              [attr.points]="zona.coordenadas"
-              [attr.fill]="selectedZona?.id === zona.id ? 'var(--primary-color-hover)' : 'var(--primary-color)'"
-              class="zona-polygon"
-              (click)="onZonaClick(zona)"
-            ></polygon>
-
-            <!-- Texto centrado con el número de zona -->
-            <text
-              [attr.x]="centrosZonas[zona.id]?.x"
-              [attr.y]="centrosZonas[zona.id]?.y"
-              class="texto-zona"
-              (click)="onZonaClick(zona)"
-            >
-              {{ zona.numero }}
-            </text>
-          }
-        }
-
-        <!-- VISTA 2: ASIENTOS -->
-        @if (modoAsientos && selectedZona) {
-          <!-- Fondo de referencia opcional: pintar la zona seleccionada muy clarita de fondo -->
-          <polygon
-            [attr.points]="selectedZona.coordenadas"
-            fill="#f0f0f0"
-            stroke="#ccc"
-          ></polygon>
-
-          @for (loc of localidades; track loc.id) {
-            @if (loc.posX !== 0 || loc.posY !== 0) {
-              <!-- Cuadrado del asiento -->
-              <rect
-                [attr.x]="loc.posX"
-                [attr.y]="loc.posY"
-                width="40"
-                height="40"
-                rx="2"
-                ry="2"
-                class="localidad-asiento"
-                fill="white"
-              >
-                <title>Fila: {{loc.fila}} - Asiento: {{loc.numero}}</title>
-              </rect>
-
-              <!-- Número del asiento (centrado justo encima del cuadrado) -->
-                <!-- Sumamos 5 a la X para centrar el texto respecto al cuadrado de ancho 10 -->
-
-            }
-          }
-        }
-
-      </svg>
-    </div>
-
-    <!-- Panel de información si es Pista/Frontstage -->
-    @if (selectedZona && !modoAsientos && (selectedZona.numero.includes('PISTA') || selectedZona.numero.includes('FRONT'))) {
-      <div class="info-pista">
-        <p>Has seleccionado <strong>{{selectedZona.numero}}</strong> (Zona de pie)</p>
-        <button class="btn-comprar">Seleccionar Entrada</button>
-      </div>
+  <main class="main-content">
+    @if (recinto) {
+      <h2 class="mb-4 fw-bold text-primary-custom">{{ recinto.nombre }}</h2>
     }
 
-  } @else {
-    <p>Cargando mapa del recinto...</p>
-  }
+    <div class="mapa-container">
+
+      <div class="controles-mapa">
+        @if (selectedZona) {
+          <button class="btn btn-secondary-custom" (click)="volverAVistaGeneral()">
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver a Zonas
+          </button>
+        }
+      </div>
+
+      @if (cargando) {
+        <div class="spinner-overlay">
+          <div class="spinner"></div>
+        </div>
+      }
+
+      <div class="aspect-ratio-box" [style.paddingBottom]="aspectRatioStyle">
+        @if (recinto) {
+          <svg [attr.viewBox]="viewBoxDinamico">
+
+            @if (!selectedZona || selectedZona.pista) {
+              <g id="zonas-layer">
+                @for (zona of zonas; track zona.id) {
+                  <g class="zona-group" (click)="onZonaClick(zona)">
+                    <polygon
+                      [attr.points]="zona.coordenadas"
+                      [attr.fill]="selectedZona?.id === zona.id ? 'var(--primary-color-hover)' : 'var(--primary-color)'"
+                      class="zona-polygon">
+                    </polygon>
+                    @if (centrosZonas[zona.id]) {
+                      <text
+                        [attr.x]="centrosZonas[zona.id].x"
+                        [attr.y]="centrosZonas[zona.id].y"
+                        class="zona-texto">
+                        {{ zona.numero }}
+                      </text>
+                    }
+                  </g>
+                }
+              </g>
+            }
+
+            @if (selectedZona && !selectedZona.pista && localidades.length > 0) {
+              <g id="localidades-layer">
+
+                @for (fila of filasInfo; track fila.numero) {
+                  <text
+                    [attr.x]="fila.minX + (TAMANO_LOCALIDAD / 2)"
+                    [attr.y]="fila.y + TAMANO_LOCALIDAD / 2"
+                    class="fila-texto"
+                    text-anchor="start">
+                    F{{ fila.numero }}
+                  </text>
+                  <text
+                    [attr.x]="fila.maxX - (TAMANO_LOCALIDAD / 2)"
+                    [attr.y]="fila.y + TAMANO_LOCALIDAD / 2"
+                    class="fila-texto"
+                    text-anchor="end">
+                    F{{ fila.numero }}
+                  </text>
+                }
+
+                @for (localidad of localidades; track localidad.id) {
+                  <g class="localidad-group">
+                    <rect
+                      [attr.x]="localidad.posX"
+                      [attr.y]="localidad.posY"
+                      [attr.width]="TAMANO_LOCALIDAD"
+                      [attr.height]="TAMANO_LOCALIDAD"
+                      [attr.rx]="5"
+                      [attr.ry]="5"
+                      fill="var(--secondary-color)"
+                      class="localidad-rect">
+                    </rect>
+                    <text
+                      [attr.x]="localidad.posX + (TAMANO_LOCALIDAD / 2)"
+                      [attr.y]="localidad.posY + (TAMANO_LOCALIDAD / 2)"
+                      class="localidad-texto">
+                      {{ localidad.numero }}
+                    </text>
+                  </g>
+                }
+              </g>
+            }
+          </svg>
+        } @else if (!cargando) {
+          <div class="alert alert-warning text-center">
+            No se pudo cargar la información del recinto.
+          </div>
+        }
+      </div>
+
+      @if (infoZonaPista) {
+        <div class="info-pista mx-auto mt-4">
+          <h4>{{ infoZonaPista.nombre }}</h4>
+          <p class="mb-0">Aforo aproximado: <strong>{{ infoZonaPista.aforo }} personas</strong></p>
+        </div>
+      }
+    </div>
+  </main>
+
+  <app-footer></app-footer>
 </div>

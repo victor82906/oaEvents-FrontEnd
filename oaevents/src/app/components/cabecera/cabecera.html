@@ -1,0 +1,104 @@
+<header class="cabecera-container">
+  <nav class="navbar-custom">
+    <!-- Logotipo -->
+    <a routerLink="/" class="logo-container cursor-pointer">
+      <img src="/logo-grande-oaevents-negro.png" alt="AOEvents Logo" class="logo-img">
+    </a>
+
+    <!-- Menú Escritorio -->
+    <div class="menu-desktop">
+      @switch (rolUsuario) {
+        @case ('COMPRADOR') {
+          <a routerLink="/eventos" class="nav-enlace">Eventos</a>
+          <a routerLink="/eventos-asistidos" class="nav-enlace">Eventos Asistidos</a>
+          <a routerLink="/chat" class="nav-enlace">Chat</a>
+        }
+        @case ('EMPRESA') {
+          <a (click)="crearEvento()" class="nav-enlace">Eventos</a>
+          <a routerLink="/mapa-recinto" class="nav-enlace">Mapa</a>
+          <a routerLink="/chat" class="nav-enlace">Chat</a>
+        }
+        @case ('RECINTO') {
+          <a routerLink="/eventos" class="nav-enlace">Eventos</a>
+          <a routerLink="/mapa-recinto" class="nav-enlace">Mapa</a>
+          <a routerLink="/chat" class="nav-enlace">Chat</a>
+        }
+        @default {
+          <a routerLink="/eventos" class="nav-enlace">Eventos</a>
+          <a routerLink="/deportes" class="nav-enlace">Deportes</a>
+          <a routerLink="/conciertos" class="nav-enlace">Conciertos</a>
+        }
+      }
+
+      @if (!isAuth()) {
+        <button routerLink="/login" class="btn-primary-custom btn-login-cabecera cursor-pointer">
+          <span class="material-symbols-outlined icon-size-small">login</span>
+          <span>Iniciar Sesión</span>
+        </button>
+      } @else {
+        <div class="menu-usuario-container">
+          <button class="btn-usuario" (click)="toggleMenuUsuario()">
+            <span class="material-symbols-outlined icon-size">account_circle</span>
+          </button>
+
+          @if (menuUsuarioAbierto) {
+            <div class="menu-usuario-panel">
+              <a (click)="editar()" class="menu-usuario-enlace">Mis Datos</a>
+              <a (click)="navegar('/cambiar-contrasena')" class="menu-usuario-enlace">Cambiar Contraseña</a>
+              <div class="separador-menu"></div>
+              <a (click)="logout()" class="menu-usuario-enlace enlace-logout">Cerrar Sesión</a>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Botón Menú Móvil (Hamburguesa) -->
+    <button class="menu-mobile-btn" (click)="toggleMenu()">
+      <span class="material-symbols-outlined icon-size">
+        {{ menuAbierto ? 'close' : 'menu' }}
+      </span>
+    </button>
+  </nav>
+
+  <!-- Panel Menú Móvil -->
+  @if (menuAbierto) {
+    <div class="menu-mobile-panel">
+      @switch (rolUsuario) {
+        @case ('COMPRADOR') {
+          <a routerLink="/eventos" class="nav-enlace" (click)="toggleMenu()">Eventos</a>
+          <a routerLink="/eventos-asistidos" class="nav-enlace" (click)="toggleMenu()">Eventos Asistidos</a>
+          <a routerLink="/chat" class="nav-enlace" (click)="toggleMenu()">Chat</a>
+        }
+        @case ('EMPRESA') {
+          <a (click)="crearEvento()" class="nav-enlace" (click)="toggleMenu()">Eventos</a>
+          <a routerLink="/mapa-recinto" class="nav-enlace" (click)="toggleMenu()">Mapa</a>
+          <a routerLink="/chat" class="nav-enlace" (click)="toggleMenu()">Chat</a>
+        }
+        @case ('RECINTO') {
+          <a routerLink="/eventos" class="nav-enlace" (click)="toggleMenu()">Eventos</a>
+          <a routerLink="/mapa-recinto" class="nav-enlace" (click)="toggleMenu()">Mapa</a>
+          <a routerLink="/chat" class="nav-enlace" (click)="toggleMenu()">Chat</a>
+        }
+        @default {
+          <a routerLink="/eventos" class="nav-enlace" (click)="toggleMenu()">Eventos</a>
+          <a routerLink="/deportes" class="nav-enlace" (click)="toggleMenu()">Deportes</a>
+          <a routerLink="/conciertos" class="nav-enlace" (click)="toggleMenu()">Conciertos</a>
+        }
+      }
+
+      <div class="separador-menu"></div>
+
+      @if (!isAuth()) {
+        <button routerLink="/login" class="btn-primary-custom btn-login-cabecera cursor-pointer" (click)="toggleMenu()">
+          <span class="material-symbols-outlined icon-size-small">login</span>
+          <span>Iniciar Sesión</span>
+        </button>
+      } @else {
+        <a (click)="editar(); toggleMenu()" class="nav-enlace">Mis Datos</a>
+        <a (click)="navegar('/cambiar-contrasena'); toggleMenu()" class="nav-enlace">Cambiar Contraseña</a>
+        <a (click)="logout(); toggleMenu()" class="nav-enlace enlace-logout">Cerrar Sesión</a>
+      }
+    </div>
+  }
+</header>

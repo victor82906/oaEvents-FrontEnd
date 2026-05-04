@@ -1,9 +1,9 @@
-<div class="login-wrapper d-flex justify-content-center align-items-center vh-100">
+<div class="login-wrapper d-flex justify-content-center align-items-center">
   <div class="card p-4 p-md-5 shadow-lg login-card">
     <div class="text-center mb-4">
-      <!-- Se puede poner aquí un logo del Olivo Arena si existiera -->
-      <h2 class="fw-bold" style="color: var(--primary-color);">AOEvents</h2>
-      <p class="text-muted">Inicia sesión para acceder a tu cuenta</p>
+      <img src="/logo-grande-oaevents.svg" alt="AOEvents Logo" class="logo-login">
+      <h2 class="fw-bold text-primary-custom mt-2">Login</h2>
+      <p class="text-muted mt-2">Inicia sesión para acceder a tu cuenta</p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="entrar()">
@@ -63,5 +63,13 @@
       </button>
 
     </form>
+
+    <div class="text-center mt-3">
+      <p class="small text-muted">¿No tienes cuenta?
+        <a routerLink="/registro-comprador" class="fw-bold text-primary-custom text-decoration-none">Regístrate aquí</a>
+      </p>
+    </div>
   </div>
 </div>
+
+<app-modal-error #modalError></app-modal-error>

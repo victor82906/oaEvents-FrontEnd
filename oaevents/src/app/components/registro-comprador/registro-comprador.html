@@ -1,0 +1,173 @@
+<div class="registro-wrapper d-flex justify-content-center align-items-center">
+  <div class="card p-4 p-md-5 shadow-lg registro-card">
+    <div class="text-center mb-4">
+      <img src="/logo-grande-oaevents.svg" alt="AOEvents Logo" class="logo-registro">
+      <h2 class="fw-bold text-primary-custom mt-2">Registro de Comprador</h2>
+      <p class="text-muted">Crea tu cuenta para empezar a comprar entradas</p>
+    </div>
+
+    <form [formGroup]="registroComprador" (ngSubmit)="registrar()">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="nombre" class="form-label fw-bold">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            class="form-control custom-input"
+            [class.is-invalid]="registroComprador.get('nombre')?.invalid && registroComprador.get('nombre')?.touched"
+            formControlName="nombre"
+            placeholder="Introduce tu nombre">
+
+          @if (registroComprador.get("nombre")?.touched) {
+            @if (registroComprador.get("nombre")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">El nombre es obligatorio</span>
+            } @else if (registroComprador.get("nombre")?.errors?.["pattern"]) {
+              <span class="error-text d-block mt-1">El nombre solo puede contener letras</span>
+            }
+          }
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="apellidos" class="form-label fw-bold">Apellidos</label>
+          <input
+            type="text"
+            id="apellidos"
+            class="form-control custom-input"
+            [class.is-invalid]="registroComprador.get('apellidos')?.invalid && registroComprador.get('apellidos')?.touched"
+            formControlName="apellidos"
+            placeholder="Introduce tus apellidos">
+
+          @if (registroComprador.get("apellidos")?.touched) {
+            @if (registroComprador.get("apellidos")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">Los apellidos son obligatorios</span>
+            } @else if (registroComprador.get("apellidos")?.errors?.["pattern"]) {
+              <span class="error-text d-block mt-1">Los apellidos solo pueden contener letras</span>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="dni" class="form-label fw-bold">DNI</label>
+          <input
+            type="text"
+            id="dni"
+            class="form-control custom-input"
+            [class.is-invalid]="registroComprador.get('dni')?.invalid && registroComprador.get('dni')?.touched"
+            formControlName="dni"
+            placeholder="12345678A">
+
+          @if (registroComprador.get("dni")?.touched) {
+            @if (registroComprador.get("dni")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">El DNI es obligatorio</span>
+            } @else if (registroComprador.get("dni")?.errors?.["error"]) {
+              <span class="error-text d-block mt-1">El DNI no es válido</span>
+            }
+          }
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="telefono" class="form-label fw-bold">Teléfono</label>
+          <input
+            type="tel"
+            id="telefono"
+            class="form-control custom-input"
+            [class.is-invalid]="registroComprador.get('telefono')?.invalid && registroComprador.get('telefono')?.touched"
+            formControlName="telefono"
+            placeholder="600123456">
+
+          @if (registroComprador.get("telefono")?.touched) {
+            @if (registroComprador.get("telefono")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">El teléfono es obligatorio</span>
+            } @else if (registroComprador.get("telefono")?.errors?.["pattern"]) {
+              <span class="error-text d-block mt-1">El teléfono debe tener 9 dígitos y empezar por 6, 7 o 9</span>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control custom-input"
+          [class.is-invalid]="registroComprador.get('email')?.invalid && registroComprador.get('email')?.touched"
+          formControlName="email"
+          placeholder="usuario@ejemplo.com">
+
+        @if (registroComprador.get("email")?.touched) {
+          @if (registroComprador.get("email")?.errors?.["required"]) {
+            <span class="error-text d-block mt-1">El correo electrónico es obligatorio</span>
+          } @else if (registroComprador.get("email")?.errors?.["email"]) {
+            <span class="error-text d-block mt-1">El formato del correo no es válido</span>
+          }
+        }
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+          <div class="input-group">
+            <input
+              [type]="verContrasena ? 'text' : 'password'"
+              id="contrasena"
+              class="form-control custom-input"
+              [class.is-invalid]="registroComprador.get('contrasena')?.invalid && registroComprador.get('contrasena')?.touched"
+              formControlName="contrasena"
+              placeholder="••••••••">
+
+            <span class="input-group-text cursor-pointer toggle-btn" (click)="toggleContrasena()" [class.border-danger]="registroComprador.get('contrasena')?.invalid && registroComprador.get('contrasena')?.touched">
+              <span class="material-symbols-outlined icon-size">
+                {{ verContrasena ? 'visibility_off' : 'visibility' }}
+              </span>
+            </span>
+          </div>
+
+          @if (registroComprador.get("contrasena")?.touched) {
+            @if (registroComprador.get("contrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">La contraseña es obligatoria</span>
+            } @else if (registroComprador.get("contrasena")?.errors?.["minlength"]) {
+              <span class="error-text d-block mt-1">La contraseña debe tener al menos 8 caracteres</span>
+            }
+          }
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="repetirContrasena" class="form-label fw-bold">Repetir Contraseña</label>
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="repetirContrasena"
+            class="form-control custom-input"
+            [class.is-invalid]="registroComprador.get('repetirContrasena')?.invalid && registroComprador.get('repetirContrasena')?.touched"
+            formControlName="repetirContrasena"
+            placeholder="••••••••">
+
+          @if (registroComprador.get("repetirContrasena")?.touched) {
+            @if (registroComprador.get("repetirContrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">Debes repetir la contraseña</span>
+            } @else if (registroComprador.hasError("contrasena")) {
+              <span class="error-text d-block mt-1">Las contraseñas no coinciden</span>
+            }
+          }
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="registroComprador.invalid">
+        <span class="fw-bold">REGISTRARSE</span>
+      </button>
+
+    </form>
+
+    <div class="text-center mt-3">
+      <p class="small text-muted">¿Ya tienes cuenta?
+        <a routerLink="/login" class="fw-bold text-primary-custom text-decoration-none">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

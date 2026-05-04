@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
@@ -43,11 +43,11 @@ export class EntradaService {
     return this.http.get<EntradaOutputDto>(this.urlEntrada + '/' + id);
   }
 
-  comprarEntradasLogueado(entrada: EntradaCompraLogueadoInputDto): number[] {
+  comprarEntradasLogueado(entrada: EntradaCompraLogueadoInputDto): Observable<number[]> {
     return this.http.post<number[]>(this.urlEntrada + '/comprar/logueado', entrada);
   }
 
-  comprarEntradas(entrada: EntradaCompraInputDto): number[] {
+  comprarEntradas(entrada: EntradaCompraInputDto): Observable<number[]> {
     return this.http.post<number[]>(this.urlEntrada + '/comprar', entrada);
   }
 

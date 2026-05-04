@@ -1,0 +1,148 @@
+<div class="registro-wrapper d-flex justify-content-center align-items-center">
+  <div class="card p-4 p-md-5 shadow-lg registro-card">
+    <div class="text-center mb-4">
+      <img src="/logo-grande-oaevents.svg" alt="AOEvents Logo" class="logo-registro">
+      <h2 class="fw-bold text-primary-custom mt-2">Registro de Empresa</h2>
+      <p class="text-muted">Crea una cuenta para tu empresa y empieza a organizar eventos</p>
+    </div>
+
+    <form [formGroup]="registroEmpresa" (ngSubmit)="registrar()">
+
+      <div class="form-group mb-3">
+        <label for="nombre" class="form-label fw-bold">Nombre de la Empresa</label>
+        <input
+          type="text"
+          id="nombre"
+          class="form-control custom-input"
+          [class.is-invalid]="registroEmpresa.get('nombre')?.invalid && registroEmpresa.get('nombre')?.touched"
+          formControlName="nombre"
+          placeholder="Nombre de tu empresa">
+
+        @if (registroEmpresa.get("nombre")?.touched) {
+          @if (registroEmpresa.get("nombre")?.errors?.["required"]) {
+            <span class="error-text d-block mt-1">El nombre de la empresa es obligatorio</span>
+          }
+        }
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="cif" class="form-label fw-bold">CIF</label>
+          <input
+            type="text"
+            id="cif"
+            class="form-control custom-input"
+            [class.is-invalid]="registroEmpresa.get('cif')?.invalid && registroEmpresa.get('cif')?.touched"
+            formControlName="cif"
+            placeholder="A12345678">
+
+          @if (registroEmpresa.get("cif")?.touched) {
+            @if (registroEmpresa.get("cif")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">El CIF es obligatorio</span>
+            }
+          }
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="telefono" class="form-label fw-bold">Teléfono de Contacto</label>
+          <input
+            type="tel"
+            id="telefono"
+            class="form-control custom-input"
+            [class.is-invalid]="registroEmpresa.get('telefono')?.invalid && registroEmpresa.get('telefono')?.touched"
+            formControlName="telefono"
+            placeholder="600123456">
+
+          @if (registroEmpresa.get("telefono")?.touched) {
+            @if (registroEmpresa.get("telefono")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">El teléfono es obligatorio</span>
+            } @else if (registroEmpresa.get("telefono")?.errors?.["pattern"]) {
+              <span class="error-text d-block mt-1">El teléfono debe tener 9 dígitos y empezar por 6, 7 o 9</span>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control custom-input"
+          [class.is-invalid]="registroEmpresa.get('email')?.invalid && registroEmpresa.get('email')?.touched"
+          formControlName="email"
+          placeholder="empresa@ejemplo.com">
+
+        @if (registroEmpresa.get("email")?.touched) {
+          @if (registroEmpresa.get("email")?.errors?.["required"]) {
+            <span class="error-text d-block mt-1">El correo electrónico es obligatorio</span>
+          } @else if (registroEmpresa.get("email")?.errors?.["email"]) {
+            <span class="error-text d-block mt-1">El formato del correo no es válido</span>
+          }
+        }
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+          <div class="input-group">
+            <input
+              [type]="verContrasena ? 'text' : 'password'"
+              id="contrasena"
+              class="form-control custom-input"
+              [class.is-invalid]="registroEmpresa.get('contrasena')?.invalid && registroEmpresa.get('contrasena')?.touched"
+              formControlName="contrasena"
+              placeholder="••••••••">
+
+            <span class="input-group-text cursor-pointer toggle-btn" (click)="toggleContrasena()" [class.border-danger]="registroEmpresa.get('contrasena')?.invalid && registroEmpresa.get('contrasena')?.touched">
+              <span class="material-symbols-outlined icon-size">
+                {{ verContrasena ? 'visibility_off' : 'visibility' }}
+              </span>
+            </span>
+          </div>
+
+          @if (registroEmpresa.get("contrasena")?.touched) {
+            @if (registroEmpresa.get("contrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">La contraseña es obligatoria</span>
+            } @else if (registroEmpresa.get("contrasena")?.errors?.["minlength"]) {
+              <span class="error-text d-block mt-1">La contraseña debe tener al menos 8 caracteres</span>
+            }
+          }
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="repetirContrasena" class="form-label fw-bold">Repetir Contraseña</label>
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="repetirContrasena"
+            class="form-control custom-input"
+            [class.is-invalid]="registroEmpresa.get('repetirContrasena')?.invalid && registroEmpresa.get('repetirContrasena')?.touched"
+            formControlName="repetirContrasena"
+            placeholder="••••••••">
+
+          @if (registroEmpresa.get("repetirContrasena")?.touched) {
+            @if (registroEmpresa.get("repetirContrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">Debes repetir la contraseña</span>
+            } @else if (registroEmpresa.hasError("contrasena")) {
+              <span class="error-text d-block mt-1">Las contraseñas no coinciden</span>
+            }
+          }
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="registroEmpresa.invalid">
+        <span class="fw-bold">REGISTRAR EMPRESA</span>
+      </button>
+
+    </form>
+
+    <div class="text-center mt-3">
+      <p class="small text-muted">¿Ya tienes cuenta?
+        <a routerLink="/login" class="fw-bold text-primary-custom text-decoration-none">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

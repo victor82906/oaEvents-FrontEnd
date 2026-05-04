@@ -1,0 +1,57 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+    <div class="card p-4 p-md-5 shadow-lg edit-card">
+
+      @if (cargando) {
+        <div class="spinner-overlay">
+          <div class="spinner"></div>
+        </div>
+      }
+
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary-custom">Editar Datos del Comprador</h2>
+        <p class="text-muted">Actualiza la información del perfil</p>
+      </div>
+
+      <form [formGroup]="editarComprador" (ngSubmit)="editar()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nombre" class="form-label fw-bold">Nombre</label>
+            <input type="text" id="nombre" class="form-control custom-input" formControlName="nombre">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="apellidos" class="form-label fw-bold">Apellidos</label>
+            <input type="text" id="apellidos" class="form-control custom-input" formControlName="apellidos">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="dni" class="form-label fw-bold">DNI</label>
+            <input type="text" id="dni" class="form-control custom-input" formControlName="dni">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="telefono" class="form-label fw-bold">Teléfono</label>
+            <input type="text" id="telefono" class="form-control custom-input" formControlName="telefono">
+          </div>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+          <input type="email" id="email" class="form-control custom-input" formControlName="email">
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="editarComprador.invalid || cargando">
+          <span class="fw-bold">GUARDAR CAMBIOS</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

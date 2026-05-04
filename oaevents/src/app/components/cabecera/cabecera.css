@@ -1,0 +1,182 @@
+.cabecera-container {
+  background-color: var(--secondary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar-custom {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+}
+
+.menu-desktop {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-enlace {
+  color: var(--text-color);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.nav-enlace:hover {
+  color: var(--primary-color-hover);
+}
+
+.btn-login-cabecera {
+  padding: 10px 20px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- Estilos Menú Usuario --- */
+.menu-usuario-container {
+  position: relative;
+}
+
+.btn-usuario {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.btn-usuario .icon-size {
+  font-size: 36px; /* Icono de usuario un poco más grande */
+}
+
+.menu-usuario-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInScale 0.2s ease-out;
+  z-index: 1001;
+}
+
+.menu-usuario-enlace {
+  padding: 12px 16px;
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.menu-usuario-enlace:hover {
+  background-color: var(--bg-color);
+}
+
+.enlace-logout {
+  color: var(--error-color);
+}
+
+.enlace-logout:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.separador-menu {
+  height: 1px;
+  background-color: var(--input-border-color);
+  margin: 4px 0;
+}
+
+/* --- Estilos Menú Móvil --- */
+.menu-mobile-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.icon-size {
+  font-size: 32px;
+}
+
+.icon-size-small {
+  font-size: 22px;
+}
+
+.menu-mobile-panel {
+  display: none;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.menu-mobile-panel.abierto {
+  display: flex;
+}
+
+.menu-mobile-panel .nav-enlace {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.menu-mobile-panel .btn-login-cabecera {
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    height: 40px;
+  }
+  .menu-desktop {
+    display: none;
+  }
+  .menu-mobile-btn {
+    display: block;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

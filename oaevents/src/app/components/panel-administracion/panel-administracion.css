@@ -1,0 +1,56 @@
+.sidebar-container {
+  background-color: var(--secondary-color);
+  width: 250px;
+  min-height: 100%; /* Ocupa el alto del contenedor padre */
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  flex-shrink: 0; /* Evita que el panel se encoja */
+}
+
+.sidebar-logo {
+  padding: 0 20px;
+  margin-bottom: 30px;
+}
+
+.logo-img {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.nav-item a {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-item a:hover {
+  background-color: var(--secondary-color-hover);
+}
+
+.nav-item a .material-symbols-outlined {
+  margin-right: 15px;
+  font-size: 24px;
+}
+
+/* Esta es la clase que routerLinkActive aplicará automáticamente */
+.active-link {
+  background-color: var(--secondary-color-hover);
+  border-left: 4px solid var(--primary-color); /* Un detalle extra para el activo */
+  padding-left: 16px;
+}

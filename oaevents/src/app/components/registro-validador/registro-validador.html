@@ -1,0 +1,111 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+    <app-panel-administracion></app-panel-administracion>
+
+    <div class="form-container">
+      <div class="card p-4 p-md-5 shadow-lg register-card">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-primary-custom">Registro de Validador</h2>
+          <p class="text-muted">Crea una nueva cuenta para un validador de accesos</p>
+        </div>
+
+        <form [formGroup]="registroValidador" (ngSubmit)="registrar()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nombre" class="form-label fw-bold">Nombre Completo</label>
+              <input type="text" id="nombre" class="form-control custom-input" formControlName="nombre" placeholder="Nombre y apellidos">
+              @if (registroValidador.get("nombre")?.touched) {
+                @if (registroValidador.get("nombre")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">El nombre es obligatorio</span>
+                } @else if (registroValidador.get("nombre")?.errors?.["pattern"]) {
+                  <span class="error-text d-block mt-1">El nombre solo puede contener letras</span>
+                }
+              }
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="dni" class="form-label fw-bold">DNI</label>
+              <input type="text" id="dni" class="form-control custom-input" formControlName="dni" placeholder="12345678A">
+              @if (registroValidador.get("dni")?.touched) {
+                @if (registroValidador.get("dni")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">El DNI es obligatorio</span>
+                } @else if (registroValidador.get("dni")?.errors?.["error"]) {
+                  <span class="error-text d-block mt-1">El formato del DNI no es válido</span>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+              <input type="email" id="email" class="form-control custom-input" formControlName="email" placeholder="validador@ejemplo.com">
+              @if (registroValidador.get("email")?.touched) {
+                @if (registroValidador.get("email")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">El correo es obligatorio</span>
+                } @else if (registroValidador.get("email")?.errors?.["email"]) {
+                  <span class="error-text d-block mt-1">El formato del correo no es válido</span>
+                }
+              }
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="telefono" class="form-label fw-bold">Teléfono</label>
+              <input type="tel" id="telefono" class="form-control custom-input" formControlName="telefono" placeholder="600123456">
+              @if (registroValidador.get("telefono")?.touched) {
+                @if (registroValidador.get("telefono")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">El teléfono es obligatorio</span>
+                } @else if (registroValidador.get("telefono")?.errors?.["pattern"]) {
+                  <span class="error-text d-block mt-1">Debe tener 9 dígitos y empezar por 6, 7 o 9</span>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+              <div class="input-group">
+                <input [type]="verContrasena ? 'text' : 'password'" id="contrasena" class="form-control custom-input" formControlName="contrasena" placeholder="••••••••">
+                <span class="input-group-text cursor-pointer" (click)="toggleContrasena()">
+                  <span class="material-symbols-outlined">
+                    {{ verContrasena ? 'visibility_off' : 'visibility' }}
+                  </span>
+                </span>
+              </div>
+              @if (registroValidador.get("contrasena")?.touched) {
+                @if (registroValidador.get("contrasena")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">La contraseña es obligatoria</span>
+                } @else if (registroValidador.get("contrasena")?.errors?.["minlength"]) {
+                  <span class="error-text d-block mt-1">Debe tener al menos 8 caracteres</span>
+                }
+              }
+            </div>
+            <div class="col-md-6 mb-4">
+              <label for="repetirContrasena" class="form-label fw-bold">Repetir Contraseña</label>
+              <div class="input-group">
+                <input [type]="verContrasena ? 'text' : 'password'" id="repetirContrasena" class="form-control custom-input" formControlName="repetirContrasena" placeholder="••••••••">
+              </div>
+              @if (registroValidador.get("repetirContrasena")?.touched) {
+                @if (registroValidador.get("repetirContrasena")?.errors?.["required"]) {
+                  <span class="error-text d-block mt-1">Debes repetir la contraseña</span>
+                } @else if (registroValidador.hasError("contrasena")) {
+                  <span class="error-text d-block mt-1">Las contraseñas no coinciden</span>
+                }
+              }
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="registroValidador.invalid">
+            <span class="fw-bold">REGISTRAR VALIDADOR</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

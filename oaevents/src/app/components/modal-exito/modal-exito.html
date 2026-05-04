@@ -1,0 +1,16 @@
+@if (visible) {
+  <div class="modal-backdrop" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <span class="material-symbols-outlined success-icon">check_circle</span>
+        <h3>{{ titulo }}</h3>
+      </div>
+      <div class="modal-body">
+        <p>{{ mensaje }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary-custom" (click)="cerrarModal()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+}

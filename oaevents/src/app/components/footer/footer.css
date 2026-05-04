@@ -1,0 +1,91 @@
+.footer-container {
+  background-color: var(--secondary-color); /* Fondo amarillo como solicitaste */
+  padding: 40px 20px;
+  width: 100%;
+  color: var(--text-color);
+  font-family: var(--font-secondary);
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-logo {
+  max-width: 220px; /* Aumentado de 180px a 220px */
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.footer-col h4 {
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.footer-enlace {
+  color: var(--text-color);
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-enlace:hover {
+  color: var(--primary-color-hover);
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 22px; /* Ajustado para los iconos de Bootstrap */
+  transition: color 0.2s ease-in-out;
+}
+
+.social-link:hover {
+  color: var(--primary-color-hover);
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+  }
+  .footer-col {
+    margin-bottom: 20px;
+    align-items: center; /* Centrar contenido en móvil */
+    text-align: center;
+  }
+  .social-icons {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,28 @@
+.registro-wrapper {
+  min-height: 100vh;
+  padding: 3rem 1rem;
+  /* Fondo oscuro con la imagen de fondo */
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/olivoArenaNoche.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.registro-card {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco con ligera transparencia */
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+.icon-size {
+  font-size: 20px;
+}
+
+.logo-registro {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 10px;
+}

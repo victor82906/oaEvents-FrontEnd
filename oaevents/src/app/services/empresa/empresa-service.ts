@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { EmpresaOutputDto, EmpresaInputDto } from '../../model/empresa';
@@ -42,6 +42,33 @@ export class EmpresaService {
     return this.http.get<Page<EmpresaOutputDto>>(this.urlEmpresa + '/inactivas/page', { params });
   }
 
+  buscar(termino: string, page: number = 0, size: number = 10): Observable<Page<EmpresaOutputDto>> {
+    let params = new HttpParams()
+      .set('termino', termino)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<EmpresaOutputDto>>(this.urlEmpresa + '/buscar/page', { params });
+  }
+
+  buscarActivas(termino: string, page: number = 0, size: number = 10): Observable<Page<EmpresaOutputDto>> {
+    let params = new HttpParams()
+      .set('termino', termino)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<EmpresaOutputDto>>(this.urlEmpresa + '/activas/buscar/page', { params });
+  }
+
+  buscarInactivas(termino: string, page: number = 0, size: number = 10): Observable<Page<EmpresaOutputDto>> {
+    let params = new HttpParams()
+      .set('termino', termino)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<EmpresaOutputDto>>(this.urlEmpresa + '/inactivas/buscar/page', { params });
+  }
+
   findById(id: number): Observable<EmpresaOutputDto> {
     return this.http.get<EmpresaOutputDto>(this.urlEmpresa + '/' + id);
   }
@@ -55,11 +82,11 @@ export class EmpresaService {
   }
 
   activar(id: number): Observable<EmpresaOutputDto> {
-    return this.http.patch<EmpresaOutputDto> (this.urlEmpresa + '/' + id + '/activar');
+    return this.http.patch<EmpresaOutputDto> (this.urlEmpresa + '/' + id + '/activar', null);
   }
 
   desactivar(id: number): Observable<EmpresaOutputDto> {
-    return this.http.patch<EmpresaOutputDto> (this.urlEmpresa + '/' + id + '/desactivar');
+    return this.http.patch<EmpresaOutputDto> (this.urlEmpresa + '/' + id + '/desactivar', null);
   }
 
   deleteById(id: number): Observable<any> {

@@ -13,8 +13,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  getUser(): UsuarioOutputDto{
-    return JSON.parse(localStorage.getItem('usuario') || '{}');
+  getUser(): any{
+    return JSON.parse(localStorage.getItem('usuario') || '{"rol": {"nombre": ""}}');
   }
 
   getId(): number{
@@ -26,19 +26,15 @@ export class AuthService {
   }
 
   getRol(){
-    return this.getUser().rol;
+    return this.getUser().rol.nombre;
   }
 
   getToken(): string | null {
     return localStorage.getItem('auth_token');
   }
 
-  getUserById(id: number): Observable<UsuarioOutputDto> {
-    return this.http.get<UsuarioOutputDto>(this.apiUrl + "/usuario/" + id);
-  }
-
-  cambiarContrasena(id: number, contrasenas: CambiarContrasenaDto): Observable<any>{
-    return this.http.post<any>(this.apiUrl + "/usuario/contrasena/" + id, contrasenas);
+  getUserById(id: number): any {
+    return this.http.get(this.apiUrl + "/usuario/" + id);
   }
 
   isAuth(): boolean {

@@ -1,0 +1,83 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+    <div class="card p-4 p-md-5 shadow-lg change-password-card">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary-custom">Cambiar Contraseña</h2>
+        <p class="text-muted">Actualiza tu contraseña de acceso</p>
+      </div>
+
+      <form [formGroup]="contrasenas" (ngSubmit)="enviar()">
+        <div class="form-group mb-3">
+          <label for="contrasenaActual" class="form-label fw-bold">Contraseña Actual</label>
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="contrasenaActual"
+            class="form-control custom-input"
+            [class.is-invalid]="contrasenas.get('contrasenaActual')?.invalid && contrasenas.get('contrasenaActual')?.touched"
+            formControlName="contrasenaActual"
+            placeholder="Introduce tu contraseña actual">
+
+          @if (contrasenas.get("contrasenaActual")?.touched && contrasenas.get("contrasenaActual")?.errors?.["required"]) {
+            <span class="error-text d-block mt-1">La contraseña actual es obligatoria</span>
+          }
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="contrasena" class="form-label fw-bold">Nueva Contraseña</label>
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="contrasena"
+            class="form-control custom-input"
+            [class.is-invalid]="contrasenas.get('contrasena')?.invalid && contrasenas.get('contrasena')?.touched"
+            formControlName="contrasena"
+            placeholder="••••••••">
+
+          @if (contrasenas.get("contrasena")?.touched) {
+            @if (contrasenas.get("contrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">La nueva contraseña es obligatoria</span>
+            } @else if (contrasenas.get("contrasena")?.errors?.["pattern"]) {
+              <span class="error-text d-block mt-1">Debe tener al menos 8 caracteres, una letra y un número</span>
+            }
+          }
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="repetirContrasena" class="form-label fw-bold">Repetir Nueva Contraseña</label>
+          <input
+            [type]="verContrasena ? 'text' : 'password'"
+            id="repetirContrasena"
+            class="form-control custom-input"
+            [class.is-invalid]="contrasenas.get('repetirContrasena')?.invalid && contrasenas.get('repetirContrasena')?.touched"
+            formControlName="repetirContrasena"
+            placeholder="••••••••">
+
+          @if (contrasenas.get("repetirContrasena")?.touched) {
+            @if (contrasenas.get("repetirContrasena")?.errors?.["required"]) {
+              <span class="error-text d-block mt-1">Debes repetir la nueva contraseña</span>
+            } @else if (contrasenas.hasError("contrasena")) {
+              <span class="error-text d-block mt-1">Las contraseñas no coinciden</span>
+            }
+          }
+        </div>
+
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="verContrasenaCheck" (change)="toggleContrasena()">
+          <label class="form-check-label" for="verContrasenaCheck">
+            Mostrar contraseñas
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="contrasenas.invalid">
+          <span class="fw-bold">ACTUALIZAR CONTRASEÑA</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

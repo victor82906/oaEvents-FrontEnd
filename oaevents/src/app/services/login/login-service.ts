@@ -14,13 +14,13 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  getTokenFromServer(usuario: LoginRequest): Observable<any> {
-    return this.http.post<any>(this.urlToken, usuario);
+  getTokenFromServer(usuario: any): Observable<any> {
+    return this.http.post(this.urlToken, usuario);
   }
 
-  getUsuarioFromServer(token: string): Observable<UsuarioOutputDto> {
+  getUsuarioFromServer(token: string): Observable<any> {
     const headers = { 'Authorization': `Bearer ${token}` };
-    return this.http.get<UsuarioOutputDto>(this.urlUsuario, {headers});
+    return this.http.get(this.urlUsuario, {headers});
   }
 
   logout(): void {
@@ -32,7 +32,7 @@ export class LoginService {
     localStorage.setItem('auth_token', token);
   }
 
-  setUsuario(usuario: UsuarioOutputDto): void {
+  setUsuario(usuario: any): void {
     localStorage.setItem('usuario', JSON.stringify(usuario));
   }
 

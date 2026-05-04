@@ -1,0 +1,28 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background-color: var(--bg-color);
+}
+
+.change-password-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+.icon-size {
+  font-size: 20px;
+}

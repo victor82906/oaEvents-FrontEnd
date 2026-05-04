@@ -1,0 +1,59 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex; /* La clave: el main es el contenedor flex */
+  background-color: var(--bg-color);
+}
+
+.form-container {
+  flex-grow: 1; /* El contenedor del form ocupa el espacio restante */
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinea la tarjeta arriba */
+}
+
+.edit-card {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+/* --- Spinner de Carga --- */
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.spinner {
+  border: 6px solid var(--input-border-color);
+  border-top: 6px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

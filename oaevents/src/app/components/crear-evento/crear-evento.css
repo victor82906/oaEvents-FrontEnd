@@ -1,0 +1,110 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  background-color: var(--bg-color);
+}
+
+.edit-card {
+  border-radius: 12px;
+  background-color: var(--bg-color);
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+/* --- Spinner de Carga --- */
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.spinner {
+  border: 6px solid var(--input-border-color);
+  border-top: 6px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Previsualización de Imagen Cuadrada --- */
+.img-preview-square {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+  border: 2px solid var(--input-border-color);
+  /* Aunque el canvas ya lo recorta a cuadrado perfecto,
+     esto asegura que el contenedor en HTML tampoco haga cosas raras */
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* --- Mapa interactivo --- */
+.aspect-ratio-box {
+  position: relative;
+  width: 100%;
+  padding-bottom: 70%;
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  border: 2px dashed var(--input-border-color);
+  overflow: hidden;
+}
+
+.aspect-ratio-box svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.zona-polygon {
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out, stroke-width 0.2s;
+}
+
+.zona-polygon:hover {
+  opacity: 0.75;
+}
+
+.zona-polygon.bloqueada {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Clase para los textos del mapa --- */
+.zona-texto {
+  font-family: var(--font-primary);
+  font-size: 30px;
+  font-weight: 700;
+  fill: white;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+/* --- Editor de Zona --- */
+.editor-zona {
+  background-color: var(--input-border-color);
+}

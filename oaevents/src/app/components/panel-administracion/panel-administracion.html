@@ -1,0 +1,21 @@
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    <a routerLink="/">
+      <img src="/logo-grande-oaevents-negro.png" alt="AOEvents Logo" class="logo-img">
+    </a>
+  </div>
+
+  <ul class="nav-list">
+    @for (link of navLinks; track link.path) {
+      <li class="nav-item">
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">
+          <span class="material-symbols-outlined">{{ link.icon }}</span>
+          <span>{{ link.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</div>

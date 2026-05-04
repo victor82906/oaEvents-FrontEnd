@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import {CompradorOutputDto} from '../../model/comprador';
+import {CompradorInputDto, CompradorOutputDto} from '../../model/comprador';
 import {Page} from '../../model/page';
 
 @Injectable({
@@ -26,11 +26,12 @@ export class CompradorService {
     return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/page', { params });
   }
 
-  buscar(termino: string, page: number = 0, size: number = 10): Observable<Page<CompradorOutputDto>> {
+  buscar(termino: string, page: number = 0, size: number = 10, sort: string = 'nombre', direccion: string = 'asc' ): Observable<Page<CompradorOutputDto>> {
     let params = new HttpParams()
       .set('termino', termino)
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort + ',' + direccion);
 
     return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/buscar/page', { params });
   }
@@ -39,11 +40,11 @@ export class CompradorService {
     return this.http.get<CompradorOutputDto>(this.urlComprador + '/' + id);
   }
 
-  save(comprador: CompradorOutputDto): Observable<CompradorOutputDto> {
+  save(comprador: CompradorInputDto): Observable<CompradorOutputDto> {
     return this.http.post<CompradorOutputDto>(this.urlComprador, comprador);
   }
 
-  update(id: number, comprador: CompradorOutputDto): Observable<CompradorOutputDto> {
+  update(id: number, comprador: CompradorInputDto): Observable<CompradorOutputDto> {
     return this.http.put<CompradorOutputDto>(this.urlComprador + '/' + id, comprador)
   }
 

@@ -1,0 +1,174 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content container-fluid py-4">
+    <div class="row w-100 justify-content-center px-lg-5 g-4">
+
+      <div class="col-lg-5 col-md-12 d-flex">
+        <div class="card p-4 p-md-5 shadow-lg edit-card w-100 position-relative">
+
+          @if (cargando) {
+            <div class="spinner-overlay">
+              <div class="spinner"></div>
+            </div>
+          }
+
+          <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary-custom">Crear Nuevo Evento</h2>
+            <p class="text-muted">Rellena los datos y configura las zonas del recinto</p>
+          </div>
+
+          <form [formGroup]="crearEvento">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Título del Evento</label>
+              <input type="text" class="form-control custom-input" formControlName="titulo">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Tipo de Evento</label>
+              <select class="form-select custom-input" formControlName="tipoEvento_id">
+                <option value="" disabled selected>Selecciona un tipo...</option>
+                @for (tipo of tiposEvento; track tipo.id) {
+                  <option [value]="tipo.id">{{ tipo.nombre }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Fecha y Hora</label>
+              <input type="datetime-local" class="form-control custom-input" formControlName="fecha">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Descripción</label>
+              <textarea class="form-control custom-input" formControlName="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Cartel del Evento</label>
+              <input type="file" class="form-control custom-input" accept="image/*" (change)="previsualizarFoto($event)">
+
+              @if (imgSeleccionada) {
+                <div class="mt-3 text-center">
+                  <img [src]="imgSeleccionada" alt="Previsualización" class="img-preview-square shadow-sm">
+                </div>
+              }
+            </div>
+
+            @if (crearEvento.get('tipoEvento_id')?.value && !formularioListo) {
+              <div class="alert alert-danger text-center small mb-3">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> Faltan datos por rellenar.
+              </div>
+            }
+
+            <button
+              type="button"
+              class="btn btn-primary-custom w-100 py-2 fw-bold"
+              (click)="guardarEvento()"
+              [disabled]="!formularioListo || cargando">
+              GUARDAR EVENTO Y ZONAS
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="col-lg-7 col-md-12 d-flex">
+        <div class="card p-4 p-md-5 shadow-lg edit-card w-100 position-relative">
+
+          @if (cargando) {
+            <div class="spinner-overlay">
+              <div class="spinner"></div>
+            </div>
+          }
+
+          <h5 class="text-center fw-bold mb-3 text-primary-custom">Gestión de Zonas y Precios</h5>
+
+          <div class="leyenda text-center mb-3 small fw-bold">
+            <span style="color: var(--primary-color);">■ Listas</span> &nbsp;|&nbsp;
+            <span style="color: #dc3545;">■ Falta precio</span> &nbsp;|&nbsp;
+            <span style="color: #6c757d;">■ Deshabilitadas</span>
+          </div>
+
+          <div class="aspect-ratio-box shadow-sm mb-4">
+            @if (recinto) {
+              <svg [attr.viewBox]="recinto.mapa">
+                @for (zona of zonas; track zona.id) {
+
+                  @if (!(tipoEventoSeleccionadoNombre === 'DEPORTIVO' && (zona.pista || zona.numero.toUpperCase() === 'PISTA'))) {
+                    <g (click)="seleccionarZona(zona)">
+                      <polygon
+                        [attr.points]="zona.coordenadas"
+                        [attr.fill]="getColorZona(zona.id)"
+                        [attr.stroke]="zonaSeleccionada?.zona?.id === zona.id ? 'black' : 'white'"
+                        [attr.stroke-width]="zonaSeleccionada?.zona?.id === zona.id ? '4' : '2'"
+                        class="zona-polygon"
+                        [class.bloqueada]="zonasConfig.get(zona.id)?.bloqueada">
+                      </polygon>
+                      @if (centrosZonas[zona.id]) {
+                        <text
+                          [attr.x]="centrosZonas[zona.id].x"
+                          [attr.y]="centrosZonas[zona.id].y"
+                          class="zona-texto">
+                          {{ zona.numero }}
+                        </text>
+                      }
+                    </g>
+                  }
+
+                }
+              </svg>
+            }
+          </div>
+
+          @if (zonaSeleccionada && !zonaSeleccionada.bloqueada) {
+            <div class="editor-zona p-3 shadow-sm rounded border-start border-4" style="border-color: var(--primary-color) !important;">
+              <h5 class="fw-bold mb-3 text-primary-custom">Editando: {{ zonaSeleccionada.zona.numero }}</h5>
+
+              <div class="row align-items-center">
+                <div class="col-md-5">
+                  <div class="form-check form-switch fs-5">
+                    <input
+                      class="form-check-input cursor-pointer"
+                      type="checkbox"
+                      id="switchHabilitar"
+                      [(ngModel)]="zonaSeleccionada.habilitada">
+                    <label class="form-check-label fw-bold cursor-pointer" for="switchHabilitar">
+                      Habilitar Zona
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <label class="form-label fw-bold">Precio del Asiento (€)</label>
+                  <input
+                    #precioInput
+                    type="number"
+                    class="form-control custom-input"
+                    [(ngModel)]="zonaSeleccionada.precio"
+                    [disabled]="!zonaSeleccionada.habilitada"
+                    placeholder="Ej: 30.50"
+                    min="0">
+                </div>
+              </div>
+            </div>
+          } @else if (crearEvento.get('tipoEvento_id')?.value) {
+            <div class="alert alert-secondary text-center m-0">
+              <i class="bi bi-hand-index me-2"></i> Selecciona una zona del mapa para asignarle un precio.
+            </div>
+          } @else {
+            <div class="alert alert-warning text-center m-0">
+              Selecciona primero el <strong>Tipo de Evento</strong> en el formulario.
+            </div>
+          }
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+
+  <app-modal-error #modalError></app-modal-error>
+  <app-modal-exito #modalExito></app-modal-exito>
+</div>

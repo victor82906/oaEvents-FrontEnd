@@ -2,7 +2,6 @@ export interface EventoInputDto {
   titulo: string;
   descripcion: string;
   fecha: Date;
-  aceptado: boolean;
   tipoEvento_id: number;
   empresa_id: number;
 }
