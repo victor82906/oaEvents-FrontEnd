@@ -120,8 +120,17 @@ export class EventoService {
   }
 
   update(id: number, evento: EventoInputDto): Observable<EventoOutputDto> {
-    return this.http.put<EventoOutputDto>(this.urlEvento + '/' + id, evento)
+    return this.http.put<EventoOutputDto>(this.urlEvento + '/' + id, evento);
   }
+
+  accept(id: number): Observable<EventoOutputDto> {
+    return this.http.patch<EventoOutputDto>(this.urlEvento + '/' + id + '/aceptar', null);
+  }
+
+  cancel(id: number): Observable<EventoOutputDto> {
+    return this.http.patch<EventoOutputDto>(this.urlEvento + '/' + id + '/cancelar', null);
+  }
+
 
   deleteById(id: number): Observable<any> {
     return this.http.delete(this.urlEvento + '/' + id);
