@@ -72,6 +72,16 @@
   font-size: 36px; /* Icono de usuario un poco más grande */
 }
 
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  cursor: default;
+}
+
 .menu-usuario-panel {
   position: absolute;
   top: calc(100% + 10px);
@@ -133,7 +143,7 @@
 }
 
 .menu-mobile-panel {
-  display: none;
+  display: flex;
   flex-direction: column;
   background-color: var(--bg-color);
   position: absolute;
@@ -142,10 +152,7 @@
   width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-}
-
-.menu-mobile-panel.abierto {
-  display: flex;
+  z-index: 999;
 }
 
 .menu-mobile-panel .nav-enlace {

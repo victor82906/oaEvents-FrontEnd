@@ -7,7 +7,6 @@ import { EmpresaOutputDto } from '../../model/empresa';
 import { Page } from '../../model/page';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
-import { PanelAdministracion } from '../panel-administracion/panel-administracion';
 import { ModalConfirmar } from '../modal-confirmar/modal-confirmar';
 import { ModalError } from '../modal-error/modal-error';
 import { ModalExito } from '../modal-exito/modal-exito';
@@ -20,7 +19,6 @@ import { ModalExito } from '../modal-exito/modal-exito';
     FormsModule,
     Cabecera,
     Footer,
-    PanelAdministracion,
     ModalConfirmar,
     ModalError,
     ModalExito,
@@ -82,6 +80,10 @@ export class BuscarEmpresa implements OnInit {
 
   editarEmpresa(id: number): void {
     this.router.navigate(['/editar-empresa'], { queryParams: { id: id } });
+  }
+
+  crearEvento(empresaId: number): void {
+    this.router.navigate(['/crear-evento'], { queryParams: { empresaId: empresaId } });
   }
 
   confirmarCambioEstado(empresa: EmpresaOutputDto): void {

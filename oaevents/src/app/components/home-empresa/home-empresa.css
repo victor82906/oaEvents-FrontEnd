@@ -1,10 +1,122 @@
-.home-layout {
+.layout-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Asegura que ocupe al menos toda la pantalla */
+  min-height: 100vh;
 }
 
 .main-content {
-  flex: 1; /* Esto hace que el contenido principal crezca y empuje el footer hacia abajo */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background-color: var(--bg-color);
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 65vh;
+  min-height: 450px;
+  background-image: url('/olivoArenaNoche.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.hero-title {
+  color: var(--secondary-color);
+  font-size: 4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Títulos de sección */
+.section-title {
+  position: relative;
+  font-size: 2.2rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 5px;
+  background-color: var(--primary-color);
+  margin: 15px auto 0;
+  border-radius: 3px;
+}
+
+.section-title-white {
+  color: var(--bg-color);
+}
+
+.section-title-white::after {
+  background-color: var(--secondary-color);
+}
+
+/* Info Section */
+.bg-primary-custom {
+  background-color: var(--primary-color);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease;
+}
+
+.info-item:hover {
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  font-size: 4.5rem;
+  color: var(--secondary-color);
+}
+
+.info-item h3 {
+  color: var(--secondary-color);
+}
+
+.info-item p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.95;
 }

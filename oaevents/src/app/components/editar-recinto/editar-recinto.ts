@@ -10,7 +10,6 @@ import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
 import { ModalError } from '../modal-error/modal-error';
 import { ModalExito } from '../modal-exito/modal-exito';
-import {PanelAdministracion} from '../panel-administracion/panel-administracion';
 
 @Component({
   selector: 'app-editar-recinto',
@@ -21,8 +20,7 @@ import {PanelAdministracion} from '../panel-administracion/panel-administracion'
     Cabecera,
     Footer,
     ModalError,
-    ModalExito,
-    PanelAdministracion
+    ModalExito
   ],
   templateUrl: './editar-recinto.html',
   styleUrl: './editar-recinto.css'

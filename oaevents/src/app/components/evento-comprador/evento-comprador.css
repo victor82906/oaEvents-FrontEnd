@@ -1,0 +1,126 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  background-color: var(--bg-color);
+}
+
+/* ── Hero ─────────────────────────────────────────── */
+.evento-hero {
+  width: 100%;
+  height: 55vh;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.evento-info-container {
+  margin-top: -100px;
+  position: relative;
+  z-index: 2;
+}
+
+.evento-titulo {
+  font-family: var(--font-primary);
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.evento-fecha-hora {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.evento-descripcion {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 800px;
+  color: #495057;
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+/* ── Entradas ─────────────────────────────────────── */
+.entradas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.entrada-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.entrada-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.entrada-info {
+  flex: 1;
+}
+
+.descargar-btn-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.entrada-card:hover .descargar-btn-icon {
+  background-color: var(--primary-color);
+  color: white !important;
+}
+
+/* Spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  min-height: 300px;
+}
+
+.spinner {
+  border: 6px solid var(--input-border-color);
+  border-top: 6px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .evento-hero {
+    height: 40vh;
+    min-height: 250px;
+  }
+  .evento-info-container {
+    margin-top: -60px;
+  }
+  .evento-titulo {
+    font-size: 2.5rem;
+  }
+}

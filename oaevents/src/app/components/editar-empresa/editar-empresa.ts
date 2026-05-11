@@ -8,6 +8,7 @@ import {EmpresaInputDto} from '../../model/empresa';
 import { CommonModule } from '@angular/common';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-editar-empresa',
@@ -32,7 +33,7 @@ export class EditarEmpresa implements OnInit{
   @ViewChild('modalError') modalError!: ModalError;
   @ViewChild('modalExito') modalExito!: ModalExito;
 
-  constructor(private empresaService: EmpresaService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private empresaService: EmpresaService, private route: ActivatedRoute, private authService: AuthService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

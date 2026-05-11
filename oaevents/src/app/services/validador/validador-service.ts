@@ -26,12 +26,12 @@ export class ValidadorService {
     return this.http.get<Page<ValidadorOutputDto>>(this.urlValidador + '/page', { params });
   }
 
-  buscar(termino: string, page: number = 0, size: number = 10, sort: string = 'nombre', direccion: string = 'asc' ): Observable<Page<ValidadorOutputDto>> {
+  buscar(termino: string, page: number = 0, size: number = 10, sort: string = 'nombre,asc'): Observable<Page<ValidadorOutputDto>> {
     let params = new HttpParams()
       .set('termino', termino)
       .set('page', page.toString())
       .set('size', size.toString())
-      .set('sort', sort + ',' + direccion);
+      .set('sort', sort);
 
     return this.http.get<Page<ValidadorOutputDto>>(this.urlValidador + '/buscar/page', { params });
   }

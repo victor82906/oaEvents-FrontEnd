@@ -10,7 +10,6 @@ import { ModalExito } from '../modal-exito/modal-exito';
 import {Router, RouterLink} from '@angular/router';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
-import { PanelAdministracion } from '../panel-administracion/panel-administracion';
 
 @Component({
   selector: 'app-buscar-comprador',
@@ -24,7 +23,6 @@ import { PanelAdministracion } from '../panel-administracion/panel-administracio
     ModalExito,
     Cabecera,
     Footer,
-    PanelAdministracion,
     RouterLink
   ],
   templateUrl: './buscar-comprador.html',
@@ -56,7 +54,8 @@ export class BuscarComprador implements OnInit {
 
   cargarCompradores(page: number = 0): void {
     this.cargando = true;
-    this.compradorService.buscar(this.terminoBusqueda, page, 10, this.campoOrden, this.direccionOrden)
+    const sortParams = `${this.campoOrden},${this.direccionOrden}`;
+    this.compradorService.buscar(this.terminoBusqueda, page, 10, sortParams)
       .subscribe({
         next: (respuesta) => {
           this.page = respuesta;

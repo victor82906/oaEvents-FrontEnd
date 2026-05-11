@@ -1,0 +1,368 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content d-flex flex-column">
+    @if (cargando && !evento) {
+      <div class="spinner-container flex-grow-1">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    @if (evento) {
+      <!-- Hero del evento -->
+      <div class="evento-hero" [style.background-image]="evento.foto ? 'url(' + apiUrl + '/' + evento.foto + ')' : 'url(/olivoArenaNoche.jpeg)'">
+      </div>
+
+      <!-- Info del evento -->
+      <div class="container evento-info-container text-center">
+        <h1 class="evento-titulo text-uppercase fw-bold mb-3 text-primary-custom">{{ evento.titulo }}</h1>
+        <div class="evento-fecha-hora d-flex justify-content-center align-items-center gap-3 mb-4 text-muted">
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-calendar3"></i>
+            {{ evento.fecha | date:'dd/MM/yyyy' }}
+          </span>
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-clock"></i>
+            {{ evento.fecha | date:'HH:mm' }}
+          </span>
+        </div>
+
+        <p class="evento-descripcion mx-auto mb-4">{{ evento.descripcion }}</p>
+
+
+      </div>
+
+      <!-- Sección del mapa -->
+      <div class="container mb-5 mt-3">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-10">
+            <h3 class="fw-bold text-primary-custom mb-3 text-center">
+              @if (!zonaSeleccionada) {
+                <i class="bi bi-map me-2"></i>Selecciona una zona
+              } @else {
+                <i class="bi bi-geo-alt me-2"></i>Zona {{ zonaSeleccionada.zona.numero }} — {{ zonaSeleccionada.precio }} €/localidad
+              }
+            </h3>
+
+            <div class="mapa-wrapper">
+              <!-- Botón volver (solo cuando se está viendo localidades de graderío) -->
+              <div class="controles-mapa mb-2">
+                @if (zonaSeleccionada && !esPista) {
+                  <button class="btn btn-secondary-custom btn-sm" (click)="volverAVistaGeneral()">
+                    <i class="bi bi-arrow-left me-1"></i> Volver a Zonas
+                  </button>
+                }
+              </div>
+
+              <!-- SVG del mapa -->
+              <div class="aspect-ratio-box shadow-sm rounded" [style.paddingBottom]="aspectRatioStyle">
+                @if (recinto && viewBoxDinamico) {
+                  <svg [attr.viewBox]="viewBoxDinamico">
+
+                    <!-- Vista general de zonas (siempre visible en modo pista) -->
+                    @if (!zonaSeleccionada || esPista) {
+                      <g id="zonas-layer">
+                        @for (zona of zonas; track zona.id) {
+                          @if (!(tipoEventoNombre === 'DEPORTIVO' && (zona.numero.toUpperCase() === 'PISTA' || zona.numero.toUpperCase() === 'FRONT' || zona.pista))) {
+                            <g class="zona-group" (click)="onZonaClick(zonasConfig.get(zona.id)!)">
+                              <polygon
+                                [attr.points]="zona.coordenadas"
+                                [attr.fill]="zonaSeleccionada?.zona?.id === zona.id ? 'var(--primary-color-hover)' : getColorZona(zona.id)"
+                                [attr.stroke]="zonaSeleccionada?.zona?.id === zona.id ? 'black' : 'white'"
+                                [attr.stroke-width]="zonaSeleccionada?.zona?.id === zona.id ? '4' : '2'"
+                                class="zona-polygon">
+                              </polygon>
+                              @if (centrosZonas[zona.id]) {
+                                <text
+                                  [attr.x]="centrosZonas[zona.id].x"
+                                  [attr.y]="centrosZonas[zona.id].y"
+                                  class="zona-texto">
+                                  {{ zona.numero }}
+                                </text>
+                              }
+                            </g>
+                          }
+                        }
+                      </g>
+                    }
+
+                    <!-- Vista de localidades dentro de una zona -->
+                    @if (zonaSeleccionada && !zonaSeleccionada.zona.pista && localidades.length > 0) {
+                      <g id="localidades-layer">
+
+                        @for (fila of filasInfo; track fila.numero) {
+                          <text
+                            [attr.x]="fila.minX + (TAMANO_LOCALIDAD / 2)"
+                            [attr.y]="fila.y + TAMANO_LOCALIDAD / 2"
+                            class="fila-texto"
+                            text-anchor="start">
+                            F{{ fila.numero }}
+                          </text>
+                          <text
+                            [attr.x]="fila.maxX - (TAMANO_LOCALIDAD / 2)"
+                            [attr.y]="fila.y + TAMANO_LOCALIDAD / 2"
+                            class="fila-texto"
+                            text-anchor="end">
+                            F{{ fila.numero }}
+                          </text>
+                        }
+
+                        @for (localidad of localidades; track localidad.id) {
+                          <g class="localidad-group" (click)="toggleLocalidad(localidad)"
+                            [class.localidad-ocupada]="!isLibre(localidad.id)"
+                            [class.localidad-seleccionada]="isSeleccionada(localidad.id)">
+                            <rect
+                              [attr.x]="localidad.posX"
+                              [attr.y]="localidad.posY"
+                              [attr.width]="TAMANO_LOCALIDAD"
+                              [attr.height]="TAMANO_LOCALIDAD"
+                              [attr.rx]="5"
+                              [attr.ry]="5"
+                              [attr.fill]="getColorLocalidad(localidad)"
+                              class="localidad-rect">
+                            </rect>
+                            <text
+                              [attr.x]="localidad.posX + (TAMANO_LOCALIDAD / 2)"
+                              [attr.y]="localidad.posY + (TAMANO_LOCALIDAD / 2)"
+                              class="localidad-texto">
+                              {{ localidad.numero }}
+                            </text>
+                          </g>
+                        }
+                      </g>
+                    }
+
+                  </svg>
+
+                  @if (cargando) {
+                    <div class="spinner-overlay">
+                      <div class="spinner"></div>
+                    </div>
+                  }
+                }
+              </div>
+
+              <!-- Leyenda -->
+              @if (zonaSeleccionada && !zonaSeleccionada.zona.pista) {
+                <div class="leyenda d-flex gap-3 justify-content-center mt-3 flex-wrap">
+                  <span class="leyenda-item"><span class="leyenda-dot libre"></span> Libre</span>
+                  <span class="leyenda-item"><span class="leyenda-dot ocupada"></span> Ocupada</span>
+                  <span class="leyenda-item"><span class="leyenda-dot seleccionada"></span> Seleccionada</span>
+                </div>
+              }
+            </div>
+
+            <!-- Resumen y formulario de compra -->
+            @if (zonaSeleccionada) {
+              <div class="compra-panel mt-4 p-4 bg-white shadow-sm rounded border">
+
+                <!-- Resumen de precios -->
+                <div class="resumen-precios mb-4">
+                  <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                    <span class="text-muted">Precio por entrada:</span>
+                    <span class="fw-bold fs-5">{{ precioUnitario | number:'1.2-2' }} €</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                    <span class="text-muted">Entradas seleccionadas:</span>
+                    <span class="fw-bold fs-5">{{ cantidadSeleccionada }} / 8</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center py-2">
+                    <span class="fw-bold fs-5">Total:</span>
+                    <span class="fw-bold fs-3 text-primary-custom">{{ precioTotal | number:'1.2-2' }} €</span>
+                  </div>
+                </div>
+
+                <!-- Contador pista -->
+                @if (esPista) {
+                  <div class="pista-counter mb-4 p-3 rounded border d-flex align-items-center justify-content-between">
+                    <span class="fw-bold">Número de entradas:</span>
+                    <div class="d-flex align-items-center gap-3">
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary rounded-circle counter-btn"
+                        (click)="disminuirCantidadPista()"
+                        [disabled]="cantidadPista <= 0">
+                        <i class="bi bi-dash-lg"></i>
+                      </button>
+                      <span class="fw-bold fs-4 counter-value">{{ cantidadPista }}</span>
+                      <button
+                        type="button"
+                        class="btn btn-primary-custom rounded-circle counter-btn"
+                        (click)="aumentarCantidadPista()"
+                        [disabled]="cantidadPista >= 8">
+                        <i class="bi bi-plus-lg"></i>
+                      </button>
+                    </div>
+                  </div>
+                }
+
+                <!-- Localidades elegidas (solo graderío) -->
+                @if (!esPista && localidadesSeleccionadas.length > 0) {
+                  <div class="localidades-elegidas mb-4">
+                    <h6 class="fw-bold mb-2">Localidades elegidas:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                      @for (loc of localidadesSeleccionadas; track loc.id) {
+                        <span class="badge bg-primary-custom px-3 py-2">
+                          F{{ loc.fila }} — Nº {{ loc.numero }}
+                          <i class="bi bi-x-circle ms-1 cursor-pointer" (click)="toggleLocalidad(loc)"></i>
+                        </span>
+                      }
+                    </div>
+                  </div>
+                }
+
+                <!-- ── FORMULARIO USUARIO LOGUEADO ── -->
+                @if (isLogueado) {
+                  <form [formGroup]="formLogueado" (ngSubmit)="comprar()">
+                    <div class="mb-4">
+                      <label class="form-label fw-bold" for="tarjetaCreditoLogueado">
+                        <i class="bi bi-credit-card me-1"></i> Número de tarjeta de crédito
+                      </label>
+                      <input
+                        id="tarjetaCreditoLogueado"
+                        type="text"
+                        class="form-control custom-input"
+                        [class.is-invalid]="formLogueado.get('tarjetaCredito')?.invalid && formLogueado.get('tarjetaCredito')?.touched"
+                        formControlName="tarjetaCredito"
+                        placeholder="1234 5678 9012 3456"
+                        maxlength="19">
+
+                      @if (formLogueado.get('tarjetaCredito')?.touched) {
+                        @if (formLogueado.get('tarjetaCredito')?.errors?.['required']) {
+                          <span class="error-text d-block mt-1">El número de tarjeta es obligatorio</span>
+                        } @else if (formLogueado.get('tarjetaCredito')?.errors?.['error']) {
+                          <span class="error-text d-block mt-1">El número de tarjeta no es válido</span>
+                        }
+                      }
+                    </div>
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary-custom w-100 py-3 fs-5 fw-bold d-flex align-items-center justify-content-center gap-2"
+                      [disabled]="comprando || cantidadSeleccionada === 0">
+                      @if (comprando) {
+                        <div class="spinner-sm"></div> Procesando compra...
+                      } @else {
+                        <i class="bi bi-ticket-perforated"></i> Comprar {{ cantidadSeleccionada }} entrada(s)
+                      }
+                    </button>
+                  </form>
+                }
+
+                <!-- ── FORMULARIO USUARIO NO LOGUEADO ── -->
+                @if (!isLogueado) {
+                  <form [formGroup]="formNoLogueado" (ngSubmit)="comprar()">
+
+                    <div class="row">
+                      <!-- Nombre -->
+                      <div class="col-md-6 mb-3">
+                        <label for="nombreComprador" class="form-label fw-bold">Nombre completo</label>
+                        <input
+                          type="text"
+                          id="nombreComprador"
+                          class="form-control custom-input"
+                          [class.is-invalid]="formNoLogueado.get('nombreComprador')?.invalid && formNoLogueado.get('nombreComprador')?.touched"
+                          formControlName="nombreComprador"
+                          placeholder="Juan García">
+
+                        @if (formNoLogueado.get('nombreComprador')?.touched) {
+                          @if (formNoLogueado.get('nombreComprador')?.errors?.['required']) {
+                            <span class="error-text d-block mt-1">El nombre es obligatorio</span>
+                          } @else if (formNoLogueado.get('nombreComprador')?.errors?.['pattern']) {
+                            <span class="error-text d-block mt-1">El nombre solo puede contener letras</span>
+                          }
+                        }
+                      </div>
+
+                      <!-- DNI -->
+                      <div class="col-md-6 mb-3">
+                        <label for="dniComprador" class="form-label fw-bold">DNI</label>
+                        <input
+                          type="text"
+                          id="dniComprador"
+                          class="form-control custom-input"
+                          [class.is-invalid]="formNoLogueado.get('dniComprador')?.invalid && formNoLogueado.get('dniComprador')?.touched"
+                          formControlName="dniComprador"
+                          placeholder="12345678A">
+
+                        @if (formNoLogueado.get('dniComprador')?.touched) {
+                          @if (formNoLogueado.get('dniComprador')?.errors?.['required']) {
+                            <span class="error-text d-block mt-1">El DNI es obligatorio</span>
+                          } @else if (formNoLogueado.get('dniComprador')?.errors?.['error']) {
+                            <span class="error-text d-block mt-1">El DNI no es válido</span>
+                          }
+                        }
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                      <label for="emailComprador" class="form-label fw-bold">Correo electrónico</label>
+                      <input
+                        type="email"
+                        id="emailComprador"
+                        class="form-control custom-input"
+                        [class.is-invalid]="formNoLogueado.get('emailComprador')?.invalid && formNoLogueado.get('emailComprador')?.touched"
+                        formControlName="emailComprador"
+                        placeholder="usuario@ejemplo.com">
+
+                      @if (formNoLogueado.get('emailComprador')?.touched) {
+                        @if (formNoLogueado.get('emailComprador')?.errors?.['required']) {
+                          <span class="error-text d-block mt-1">El correo electrónico es obligatorio</span>
+                        } @else if (formNoLogueado.get('emailComprador')?.errors?.['email']) {
+                          <span class="error-text d-block mt-1">El formato del correo no es válido</span>
+                        }
+                      }
+                    </div>
+
+                    <!-- Tarjeta -->
+                    <div class="mb-4">
+                      <label for="tarjetaCreditoNoLogueado" class="form-label fw-bold">
+                        <i class="bi bi-credit-card me-1"></i> Número de tarjeta de crédito
+                      </label>
+                      <input
+                        type="text"
+                        id="tarjetaCreditoNoLogueado"
+                        class="form-control custom-input"
+                        [class.is-invalid]="formNoLogueado.get('tarjetaCredito')?.invalid && formNoLogueado.get('tarjetaCredito')?.touched"
+                        formControlName="tarjetaCredito"
+                        placeholder="1234 5678 9012 3456"
+                        maxlength="19">
+
+                      @if (formNoLogueado.get('tarjetaCredito')?.touched) {
+                        @if (formNoLogueado.get('tarjetaCredito')?.errors?.['required']) {
+                          <span class="error-text d-block mt-1">El número de tarjeta es obligatorio</span>
+                        } @else if (formNoLogueado.get('tarjetaCredito')?.errors?.['error']) {
+                          <span class="error-text d-block mt-1">El número de tarjeta no es válido</span>
+                        }
+                      }
+                    </div>
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary-custom w-100 py-3 fs-5 fw-bold d-flex align-items-center justify-content-center gap-2"
+                      [disabled]="comprando || cantidadSeleccionada === 0">
+                      @if (comprando) {
+                        <div class="spinner-sm"></div> Procesando compra...
+                      } @else {
+                        <i class="bi bi-ticket-perforated"></i> Comprar {{ cantidadSeleccionada }} entrada(s)
+                      }
+                    </button>
+
+                  </form>
+                }
+
+              </div>
+            }
+
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

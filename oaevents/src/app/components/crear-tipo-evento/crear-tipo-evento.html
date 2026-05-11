@@ -1,0 +1,38 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+
+    <div class="form-container">
+      <div class="card p-4 p-md-5 shadow-lg register-card">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-primary-custom">Crear Tipo de Evento</h2>
+          <p class="text-muted">Añade una nueva categoría para clasificar los eventos</p>
+        </div>
+
+        <form [formGroup]="crearTipoEventoForm" (ngSubmit)="crear()">
+          <div class="mb-4">
+            <label for="nombre" class="form-label fw-bold">Nombre del Tipo de Evento</label>
+            <input type="text" id="nombre" class="form-control custom-input" formControlName="nombre" placeholder="Ej. Concierto, Partido, Teatro...">
+            @if (crearTipoEventoForm.get("nombre")?.touched) {
+              @if (crearTipoEventoForm.get("nombre")?.errors?.["required"]) {
+                <span class="error-text d-block mt-1">El nombre es obligatorio</span>
+              } @else if (crearTipoEventoForm.get("nombre")?.errors?.["pattern"]) {
+                <span class="error-text d-block mt-1">El nombre solo puede contener letras</span>
+              }
+            }
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom w-100 py-2" [disabled]="crearTipoEventoForm.invalid">
+            <span class="fw-bold">CREAR TIPO DE EVENTO</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>

@@ -11,9 +11,23 @@
 }
 
 .page-content {
-  padding: 2rem;
+  padding: 4rem 2rem 2rem 2rem;
   flex: 1;
   background-color: var(--bg-color);
+}
+
+@media (min-width: 992px) {
+  .page-content {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .page-content {
+    padding-left: 10rem;
+    padding-right: 10rem;
+  }
 }
 
 /* --- Contenido específico de la página --- */

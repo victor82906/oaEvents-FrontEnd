@@ -8,6 +8,7 @@ import { Footer } from '../footer/footer';
 import {EventoOutputDto} from '../../model/evento';
 import {EventoService} from '../../services/evento/evento-service';
 import {Page} from '../../model/page';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +21,13 @@ export class Home implements OnInit {
   eventosRecientes: EventoOutputDto[] = [];
   eventosSiguientes: EventoOutputDto[] = [];
   cargando: boolean = false;
+  apiUrl = environment.apiUrl;
 
   constructor(private router: Router, private authService: AuthService, private cdr: ChangeDetectorRef, private eventoService: EventoService) {}
 
   ngOnInit(): void {
     if(this.authService.getRol() == "RECINTO"){
       this.router.navigate(['/home-recinto']);
-    }else if(this.authService.getRol() == "COMPRADOR"){
-      this.router.navigate(['/home-comprador']);
     } else if(this.authService.getRol() == "EMPRESA"){
       this.router.navigate(['/home-empresa']);
     }
@@ -50,7 +50,7 @@ export class Home implements OnInit {
     const strPasada = this.formatearFecha(fechaPasada);
     const strFutura = this.formatearFecha(fechaFutura);
 
-    this.eventoService.findAceptadosByFechasPaged(strPasada, strActual, 0, 5).subscribe({
+    this.eventoService.findAceptadosByFechasPaged(strPasada, strActual, 0, 3).subscribe({
       next: (page: Page<EventoOutputDto>) => {
         this.eventosRecientes = page.content;
         this.cargando = false;
@@ -64,7 +64,7 @@ export class Home implements OnInit {
     });
 
     this.cargando = true;
-    this.eventoService.findAceptadosByFechasPaged(strActual, strFutura, 0, 5).subscribe({
+    this.eventoService.findAceptadosByFechasPaged(strActual, strFutura, 0, 3).subscribe({
       next: (page: Page<EventoOutputDto>) => {
         this.eventosSiguientes = page.content;
         this.cargando = false;
@@ -86,7 +86,15 @@ export class Home implements OnInit {
   }
 
   verEvento(id: number) {
-    this.router.navigate(['/evento'], { queryParams: { id: id } });
+    this.router.navigate(['/evento-comprador'], { queryParams: { id: id } });
+  }
+
+  comprarEntrada(eventoId: number) {
+    this.router.navigate(['/comprar-entrada'], { queryParams: { id: eventoId } });
+  }
+
+  isAuth(){
+    return this.authService.isAuth();
   }
 
 }

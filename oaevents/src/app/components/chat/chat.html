@@ -1,0 +1,76 @@
+<div class="chat-layout-container">
+  <app-cabecera></app-cabecera>
+
+  <div class="chat-main-content">
+    <main class="page-content">
+      <div class="container-fluid">
+
+        <!-- Cabecera de la página -->
+        <div class="chat-page-header">
+          @if (usuario) {
+            <h1 class="fw-bold text-primary-custom">{{ usuario.nombre }}</h1>
+          } @else {
+            <h1 class="fw-bold text-primary-custom">Chat</h1>
+          }
+        </div>
+
+        <!-- Spinner de Carga -->
+        @if (cargando) {
+          <div class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+        }
+
+        <!-- Panel de Chat -->
+        @if (!cargando) {
+          <div class="chat-panel">
+
+            <!-- Área de mensajes -->
+            <div class="chat-mensajes" #mensajesContainer>
+
+
+
+              @for (msg of mensajes; track msg.id) {
+                <div class="mensaje-fila" [class.mensaje-fila--mio]="esMio(msg)" [class.mensaje-fila--otro]="!esMio(msg)">
+                  <div class="mensaje-burbuja" [class.burbuja-mia]="esMio(msg)" [class.burbuja-otro]="!esMio(msg)">
+                    <p class="mensaje-texto">{{ msg.mensaje }}</p>
+                    <span class="mensaje-hora">{{ msg.fecha | date:'HH:mm · dd/MM/yy' }}</span>
+                  </div>
+                </div>
+              }
+
+            </div>
+
+            <!-- Input de envío -->
+            <div class="chat-input-area">
+              <textarea
+                id="inputMensaje"
+                class="custom-input chat-textarea"
+                [(ngModel)]="nuevoMensaje"
+                (keydown)="onEnter($event)"
+                placeholder="Escribe un mensaje..."
+                rows="1"
+                [disabled]="enviando">
+              </textarea>
+              <button
+                class="btn-primary-custom chat-btn-enviar"
+                (click)="enviarMensaje()"
+                [disabled]="!nuevoMensaje.trim() || enviando"
+                title="Enviar mensaje">
+                @if (enviando) {
+                  <span class="material-symbols-outlined spin-icon">progress_activity</span>
+                } @else {
+                  <span class="material-symbols-outlined">send</span>
+                }
+              </button>
+            </div>
+
+          </div>
+        }
+
+      </div>
+    </main>
+  </div>
+
+  <app-footer></app-footer>
+</div>

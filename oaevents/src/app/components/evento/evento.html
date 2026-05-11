@@ -1,0 +1,108 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content d-flex flex-column">
+    @if (cargando) {
+      <div class="spinner-container flex-grow-1">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    @if (!cargando && evento) {
+      <!-- Faded Image Hero -->
+      <div class="evento-hero" [style.background-image]="evento.foto ? 'url(' + apiUrl + '/' + evento.foto + ')' : 'url(/olivoArenaNoche.jpeg)'">
+      </div>
+
+      <!-- Event Info -->
+      <div class="container evento-info-container text-center">
+        <h1 class="evento-titulo text-uppercase fw-bold mb-3 text-primary-custom">{{ evento.titulo }}</h1>
+        <div class="evento-fecha-hora d-flex justify-content-center align-items-center gap-3 mb-4 text-muted">
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-calendar3"></i>
+            {{ evento.fecha | date:'dd/MM/yyyy' }}
+          </span>
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-clock"></i>
+            {{ evento.fecha | date:'HH:mm' }}
+          </span>
+        </div>
+
+        <p class="evento-descripcion mx-auto mb-4">{{ evento.descripcion }}</p>
+
+        @if (empresa) {
+          <div class="empresa-info-badge d-inline-flex flex-column align-items-center justify-content-center gap-1 px-4 py-3 rounded shadow-sm bg-white border mb-5">
+            <div class="d-flex align-items-center gap-2 text-primary-custom mb-1">
+              <i class="bi bi-building fs-4"></i>
+              <span class="fs-5 fw-bold text-primary-custom">{{ empresa.nombre }}</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 text-muted">
+              <i class="bi bi-envelope"></i>
+              <span>{{ empresa.email }}</span>
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <!-- Map Section -->
+      <div class="container mb-5 mt-5 pt-4">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <!-- Entradas Vendidas -->
+            <div class="d-flex justify-content-start mb-3">
+              <div class="entradas-vendidas-badge d-inline-flex align-items-center gap-2 px-3 py-2 rounded shadow-sm bg-white border">
+                <i class="bi bi-ticket-perforated fs-5 text-primary-custom"></i>
+                <span class="fs-5 fw-bold">{{ entradasVendidas }}</span>
+                <span class="text-muted">entradas vendidas</span>
+              </div>
+            </div>
+
+            <div class="aspect-ratio-box shadow-sm rounded">
+              @if (recinto) {
+                <svg [attr.viewBox]="recinto.mapa">
+                  @for (zona of zonas; track zona.id) {
+                    @if (!(tipoEventoNombre === 'DEPORTIVO' && (zona.numero.toUpperCase() === 'PISTA' || zona.numero.toUpperCase() === 'FRONT' || zona.pista))) {
+                      <g (click)="seleccionarZona(zona.id)" class="cursor-pointer">
+                        <polygon
+                          [attr.points]="zona.coordenadas"
+                          [attr.fill]="getColorZona(zona.id)"
+                          [attr.stroke]="zonaSeleccionada?.zona?.id === zona.id ? 'black' : 'white'"
+                          [attr.stroke-width]="zonaSeleccionada?.zona?.id === zona.id ? '4' : '2'"
+                          class="zona-polygon">
+                        </polygon>
+                        @if (centrosZonas[zona.id]) {
+                          <text
+                            [attr.x]="centrosZonas[zona.id].x"
+                            [attr.y]="centrosZonas[zona.id].y"
+                            class="zona-texto">
+                            {{ zona.numero }}
+                          </text>
+                        }
+                      </g>
+                    }
+                  }
+                </svg>
+              }
+            </div>
+
+            @if (zonaSeleccionada) {
+              <div class="mt-4 p-3 bg-white shadow-sm border rounded text-center">
+                <h4 class="fw-bold text-primary-custom mb-2">{{ zonaSeleccionada.zona.numero }}</h4>
+                @if (zonaSeleccionada.habilitada && zonaSeleccionada.precio !== null) {
+                  <p class="fs-5 mb-0">Precio: <strong>{{ zonaSeleccionada.precio }} €</strong></p>
+                } @else {
+                  <p class="fs-5 mb-0 text-muted">Esta zona no está habilitada para este evento.</p>
+                }
+              </div>
+            }
+
+          </div>
+        </div>
+      </div>
+
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>
+<app-modal-error #modalError></app-modal-error>

@@ -1,0 +1,62 @@
+/* --- Estructura del Layout --- */
+.admin-layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-main-content {
+  display: flex;
+  flex: 1;
+}
+
+.page-content {
+  padding: 4rem 2rem 2rem 2rem;
+  flex: 1;
+  background-color: var(--bg-color);
+}
+
+@media (min-width: 992px) {
+  .page-content {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .page-content {
+    padding-left: 10rem;
+    padding-right: 10rem;
+  }
+}
+
+/* --- Contenido específico de la página --- */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  min-height: 300px;
+}
+
+.spinner {
+  border: 6px solid var(--input-border-color);
+  border-top: 6px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}

@@ -26,12 +26,12 @@ export class CompradorService {
     return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/page', { params });
   }
 
-  buscar(termino: string, page: number = 0, size: number = 10, sort: string = 'nombre', direccion: string = 'asc' ): Observable<Page<CompradorOutputDto>> {
+  buscar(termino: string, page: number = 0, size: number = 10, sort: string = 'nombre,asc'): Observable<Page<CompradorOutputDto>> {
     let params = new HttpParams()
       .set('termino', termino)
       .set('page', page.toString())
       .set('size', size.toString())
-      .set('sort', sort + ',' + direccion);
+      .set('sort', sort);
 
     return this.http.get<Page<CompradorOutputDto>>(this.urlComprador + '/buscar/page', { params });
   }

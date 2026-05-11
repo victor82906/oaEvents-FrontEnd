@@ -1,0 +1,75 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+    
+    <div class="container py-5 mt-4">
+      <h2 class="text-center mb-5 fw-bold section-title">Próximos Eventos</h2>
+      
+      @if (cargando && eventosSiguientes.length === 0) {
+        <div class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+      } @else if (eventosSiguientes.length > 0) {
+        <div class="events-grid">
+          @for (evento of eventosSiguientes; track evento.id) {
+            <div class="event-card shadow-sm" (click)="comprarEntrada(evento.id)">
+              <div class="event-image">
+                <img [src]="evento.foto ? apiUrl + '/' + evento.foto : '/olivoArenaNoche.jpeg'" [alt]="evento.titulo">
+                <div class="event-date shadow-sm p-2 text-center">
+                  <span class="day fw-bold">{{evento.fecha | date:'dd'}}</span>
+                  <span class="month text-uppercase fw-bold">{{evento.fecha | date:'MMM'}}</span>
+                </div>
+              </div>
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h3 class="mb-3 fw-bold fs-5 text-dark">{{evento.titulo}}</h3>
+                <p class="event-desc mb-4">{{evento.descripcion | slice:0:100}}{{evento.descripcion.length > 100 ? '...' : ''}}</p>
+                <button class="btn btn-primary-custom w-100 mt-auto d-inline-flex align-items-center justify-content-center gap-2">Ver Evento</button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state text-center p-5 bg-light rounded-3">
+          <span class="material-symbols-outlined mb-3">event_busy</span>
+          <p class="m-0 fs-5">No hay eventos próximos programados.</p>
+        </div>
+      }
+
+      <h2 class="text-center mt-5 pt-4 mb-5 fw-bold section-title">Eventos Recientes</h2>
+
+      @if (cargando && eventosRecientes.length === 0) {
+        <div class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+      } @else if (eventosRecientes.length > 0) {
+        <div class="events-grid">
+          @for (evento of eventosRecientes; track evento.id) {
+            <div class="event-card shadow-sm" (click)="verEvento(evento.id)">
+              <div class="event-image">
+                <img [src]="evento.foto ? apiUrl + '/' + evento.foto : '/olivoArenaNoche.jpeg'" [alt]="evento.titulo">
+                <div class="event-date past shadow-sm p-2 text-center">
+                  <span class="day fw-bold">{{evento.fecha | date:'dd'}}</span>
+                  <span class="month text-uppercase fw-bold">{{evento.fecha | date:'MMM'}}</span>
+                </div>
+              </div>
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h3 class="mb-3 fw-bold fs-5 text-dark">{{evento.titulo}}</h3>
+                <p class="event-desc mb-4">{{evento.descripcion | slice:0:100}}{{evento.descripcion.length > 100 ? '...' : ''}}</p>
+                <button class="btn btn-secondary-custom w-100 mt-auto d-inline-flex align-items-center justify-content-center gap-2">Ver Evento</button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state text-center p-5 bg-light rounded-3">
+          <span class="material-symbols-outlined mb-3">history</span>
+          <p class="m-0 fs-5">No hay eventos recientes que mostrar.</p>
+        </div>
+      }
+    </div>
+
+  </main>
+
+  <app-footer></app-footer>
+</div>

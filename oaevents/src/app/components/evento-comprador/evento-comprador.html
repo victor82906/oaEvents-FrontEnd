@@ -1,0 +1,70 @@
+ <div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content d-flex flex-column">
+    @if (cargando && !evento) {
+      <div class="spinner-container flex-grow-1">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    @if (evento) {
+      <!-- Hero del evento -->
+      <div class="evento-hero" [style.background-image]="evento.foto ? 'url(' + apiUrl + '/' + evento.foto + ')' : 'url(/olivoArenaNoche.jpeg)'">
+      </div>
+
+      <!-- Info del evento -->
+      <div class="container evento-info-container text-center mb-5">
+        <h1 class="evento-titulo text-uppercase fw-bold mb-3 text-primary-custom">{{ evento.titulo }}</h1>
+        <div class="evento-fecha-hora d-flex justify-content-center align-items-center gap-3 mb-4 text-muted">
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-calendar3"></i>
+            {{ evento.fecha | date:'dd/MM/yyyy' }}
+          </span>
+          <span class="d-flex align-items-center gap-1">
+            <i class="bi bi-clock"></i>
+            {{ evento.fecha | date:'HH:mm' }}
+          </span>
+        </div>
+
+        <p class="evento-descripcion mx-auto mb-4">{{ evento.descripcion }}</p>
+      </div>
+
+      @if (entradas.length > 0) {
+      <!-- Sección de Entradas -->
+      <div class="container mb-5">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-10">
+            <h2 class="fw-bold text-primary-custom mb-4 text-center">
+              <i class="bi bi-ticket-perforated me-2"></i>Mis Entradas
+            </h2>
+              <div class="entradas-grid">
+                @for (entrada of entradas; track entrada.id) {
+                  <div class="entrada-card p-3 shadow-sm border rounded bg-white d-flex justify-content-between align-items-center" (click)="descargarEntrada(entrada.id)">
+                    <div class="entrada-info">
+                      @if (entrada.fila) {
+                        <h5 class="fw-bold text-primary-custom mb-1">
+                          Fila: {{ entrada.fila }} — Nº: {{ entrada.numero }}
+                        </h5>
+                      }
+                      <div class="text-muted small">
+                        Pulse para descargar PDF
+                      </div>
+                    </div>
+                    <div class="descargar-btn-icon text-primary-custom">
+                      <i class="bi bi-download fs-4"></i>
+                    </div>
+                  </div>
+                }
+              </div>
+          </div>
+        </div>
+      </div>
+      }
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<app-modal-error #modalError></app-modal-error>

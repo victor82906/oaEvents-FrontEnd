@@ -6,7 +6,6 @@ import { ValidadorService } from '../../services/validador/validador-service';
 import { ValidadorInputDto } from '../../model/validador';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
-import { PanelAdministracion } from '../panel-administracion/panel-administracion';
 import { ModalError } from '../modal-error/modal-error';
 import { ModalExito } from '../modal-exito/modal-exito';
 
@@ -18,7 +17,6 @@ import { ModalExito } from '../modal-exito/modal-exito';
     ReactiveFormsModule,
     Cabecera,
     Footer,
-    PanelAdministracion,
     ModalError,
     ModalExito
   ],

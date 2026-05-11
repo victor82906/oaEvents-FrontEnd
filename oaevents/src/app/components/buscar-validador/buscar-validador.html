@@ -2,7 +2,6 @@
   <app-cabecera></app-cabecera>
 
   <div class="admin-main-content">
-    <app-panel-administracion></app-panel-administracion>
 
     <main class="page-content">
       <div class="container-fluid">
@@ -22,7 +21,7 @@
 
           <div class="d-flex align-items-center gap-2">
             <div class="input-group" style="width: 250px;">
-              <label class="input-group-text" for="campoOrdenSelector">Ordenar por:</label>
+              <label class="input-group-text fw-bold" for="campoOrdenSelector">Ordenar por:</label>
               <select class="form-select custom-input" id="campoOrdenSelector" [(ngModel)]="campoOrden" (change)="onOrdenChange()">
                 <option value="nombre">Nombre</option>
                 <option value="email">Email</option>

@@ -1,0 +1,98 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content">
+    <h1 class="mb-4 fw-bold text-primary-custom">Eventos Asistidos</h1>
+
+    <!-- Controles de Búsqueda y Ordenación -->
+    <div class="controles-tabla mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div class="input-group" style="max-width: 400px;">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input
+          type="text"
+          class="form-control custom-input"
+          placeholder="Buscar eventos por título..."
+          [(ngModel)]="terminoBusqueda"
+          (input)="onBusquedaChange()">
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="input-group" style="width: 250px;">
+          <label class="input-group-text" for="campoOrdenSelector"><strong>Ordenar por:</strong></label>
+          <select class="form-select custom-input" id="campoOrdenSelector" [(ngModel)]="campoOrden" (change)="onOrdenChange()">
+            <option value="titulo">Título</option>
+            <option value="fecha">Fecha</option>
+          </select>
+        </div>
+        <div class="input-group" style="width: 120px;">
+          <select class="form-select custom-input" id="direccionOrdenSelector" [(ngModel)]="direccionOrden" (change)="onOrdenChange()">
+            <option value="asc">Asc</option>
+            <option value="desc">Desc</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner de Carga -->
+    @if (cargando) {
+      <div class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    <!-- Contenido Principal -->
+    @if (!cargando && page) {
+      @if (page.empty) {
+        <div class="alert alert-info text-center mt-4">
+          No se encontraron eventos con los criterios seleccionados.
+        </div>
+      } @else {
+        <div class="events-grid mt-4">
+          @for (evento of page.content; track evento.id) {
+            <div class="event-card shadow-sm" (click)="verEvento(evento.id)">
+              <div class="event-image">
+                <img [src]="evento.foto ? apiUrl + '/' + evento.foto : '/olivoArenaNoche.jpeg'" [alt]="evento.titulo">
+                <div class="event-date shadow-sm p-2 text-center">
+                  <span class="day fw-bold">{{evento.fecha | date:'dd'}}</span>
+                  <span class="month text-uppercase fw-bold">{{evento.fecha | date:'MMM'}}</span>
+                </div>
+              </div>
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h3 class="mb-3 fw-bold fs-5 text-dark">{{evento.titulo}}</h3>
+                <p class="event-desc mb-4">{{evento.descripcion | slice:0:100}}{{evento.descripcion.length > 100 ? '...' : ''}}</p>
+                <button class="btn btn-primary-custom w-100 mt-auto d-inline-flex align-items-center justify-content-center gap-2">Ver evento</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Paginación -->
+      <div class="d-flex justify-content-end align-items-center mt-5">
+        @if (!page.empty) {
+          <div class="d-flex flex-column align-items-end">
+            <nav>
+              <ul class="pagination mb-0">
+                <li class="page-item" [class.disabled]="page.first">
+                  <a class="page-link" href="#" (click)="$event.preventDefault(); cambiarPagina(page.number - 1)">Anterior</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">{{ page.number + 1 }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="page.last">
+                  <a class="page-link" href="#" (click)="$event.preventDefault(); cambiarPagina(page.number + 1)">Siguiente</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="text-muted small mt-1">
+              Página {{ page.number + 1 }} de {{ page.totalPages }} ({{ page.totalElements }} eventos)
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>
+<app-modal-error #modalError></app-modal-error>

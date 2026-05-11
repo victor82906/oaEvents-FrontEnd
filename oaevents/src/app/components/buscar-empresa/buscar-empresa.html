@@ -2,7 +2,6 @@
   <app-cabecera></app-cabecera>
 
   <div class="admin-main-content">
-    <app-panel-administracion></app-panel-administracion>
 
     <main class="page-content">
       <div class="container-fluid">
@@ -21,7 +20,7 @@
           </div>
 
           <div class="input-group" style="width: 200px;">
-            <label class="input-group-text" for="estadoSelector">Mostrar:</label>
+            <label class="input-group-text fw-bold" for="estadoSelector">Mostrar:</label>
             <select class="form-select custom-input" id="estadoSelector" [(ngModel)]="estadoFiltro" (change)="onFiltroChange()">
               <option value="activas">Activas</option>
               <option value="inactivas">Inactivas</option>
@@ -66,6 +65,9 @@
                           <i class="bi bi-pencil"></i>
                         </button>
                         @if (empresa.activa) {
+                          <button class="btn btn-sm btn-outline-info me-2" title="Crear Evento" (click)="crearEvento(empresa.id)">
+                            <i class="bi bi-calendar-plus"></i>
+                          </button>
                           <button class="btn btn-sm btn-outline-danger btn-toggle-estado" (click)="confirmarCambioEstado(empresa)">
                             <i class="bi bi-toggle-off me-1"></i> Desactivar
                           </button>

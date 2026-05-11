@@ -7,7 +7,6 @@ import { ValidadorOutputDto } from '../../model/validador';
 import { Page } from '../../model/page';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
-import { PanelAdministracion } from '../panel-administracion/panel-administracion';
 import { ModalConfirmar } from '../modal-confirmar/modal-confirmar';
 import { ModalError } from '../modal-error/modal-error';
 import { ModalExito } from '../modal-exito/modal-exito';
@@ -20,7 +19,6 @@ import { ModalExito } from '../modal-exito/modal-exito';
     FormsModule,
     Cabecera,
     Footer,
-    PanelAdministracion,
     ModalConfirmar,
     ModalError,
     ModalExito,
@@ -55,7 +53,8 @@ export class BuscarValidador implements OnInit {
 
   cargarValidadores(page: number = 0): void {
     this.cargando = true;
-    this.validadorService.buscar(this.terminoBusqueda, page, 10, this.campoOrden, this.direccionOrden)
+    const sortParams = `${this.campoOrden},${this.direccionOrden}`;
+    this.validadorService.buscar(this.terminoBusqueda, page, 10, sortParams)
       .subscribe({
         next: (respuesta) => {
           this.page = respuesta;

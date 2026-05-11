@@ -9,6 +9,7 @@ import {CompradorInputDto} from '../../model/comprador';
 import { CommonModule } from '@angular/common';
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-editar-comprador',
@@ -33,7 +34,7 @@ export class EditarComprador implements OnInit{
   @ViewChild('modalError') modalError!: ModalError;
   @ViewChild('modalExito') modalExito!: ModalExito;
 
-  constructor(private compradorService: CompradorService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private compradorService: CompradorService, private route: ActivatedRoute, private authService: AuthService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

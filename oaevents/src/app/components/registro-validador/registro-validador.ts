@@ -11,7 +11,6 @@ import {ValidadorService} from '../../services/validador/validador-service';
 
 import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
-import { PanelAdministracion } from '../panel-administracion/panel-administracion';
 
 @Component({
   selector: 'app-registro-validador',
@@ -21,7 +20,6 @@ import { PanelAdministracion } from '../panel-administracion/panel-administracio
     ReactiveFormsModule,
     Cabecera,
     Footer,
-    PanelAdministracion,
     ModalError,
     ModalExito
   ],

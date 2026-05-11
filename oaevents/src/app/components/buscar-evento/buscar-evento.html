@@ -1,0 +1,111 @@
+<div class="admin-layout-container">
+  <app-cabecera></app-cabecera>
+  
+  <div class="admin-main-content">
+
+    <main class="page-content">
+      <div class="container-fluid">
+        <h1 class="mb-4 fw-bold text-primary-custom">Buscar Eventos</h1>
+
+        <!-- Controles de Búsqueda -->
+        <div class="controles-tabla mb-4 d-flex justify-content-start align-items-center flex-wrap gap-3">
+          <div class="input-group" style="max-width: 400px;">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input
+              type="text"
+              class="form-control custom-input"
+              placeholder="Buscar por título..."
+              [(ngModel)]="terminoBusqueda"
+              (input)="onBusquedaChange()">
+          </div>
+        </div>
+
+        <!-- Spinner de Carga -->
+        @if (cargando) {
+          <div class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+        }
+
+        <!-- Contenido Principal -->
+        @if (!cargando && page) {
+          @if (page.empty) {
+            <div class="alert alert-info text-center mt-4">
+              No se encontraron eventos con el título indicado.
+            </div>
+          } @else {
+            <div class="events-grid mt-4">
+              @for (evento of page.content; track evento.id) {
+                <div class="event-card shadow-sm" (click)="verEvento(evento.id)">
+                  <div class="event-image">
+                    <img [src]="evento.foto ? apiUrl + '/' + evento.foto : '/olivoArenaNoche.jpeg'" [alt]="evento.titulo">
+                    <div class="event-date shadow-sm p-2 text-center">
+                      <span class="day fw-bold">{{evento.fecha | date:'dd'}}</span>
+                      <span class="month text-uppercase fw-bold">{{evento.fecha | date:'MMM'}}</span>
+                    </div>
+                  </div>
+                  <div class="p-4 d-flex flex-column flex-grow-1">
+                    <h3 class="mb-3 fw-bold fs-5 text-dark">{{evento.titulo}}</h3>
+                    <p class="event-desc mb-4">{{evento.descripcion | slice:0:100}}{{evento.descripcion.length > 100 ? '...' : ''}}</p>
+                    
+                    <div class="mt-auto d-flex gap-2">
+                      <button 
+                        class="btn btn-outline-danger flex-grow-1 d-inline-flex align-items-center justify-content-center gap-1"
+                        (click)="confirmarEliminacion(evento.id); $event.stopPropagation()">
+                        <i class="bi bi-trash"></i> Eliminar
+                      </button>
+                      
+                      @if (!evento.aceptado) {
+                        <button 
+                          class="btn btn-success flex-grow-1 d-inline-flex align-items-center justify-content-center gap-1"
+                          (click)="confirmarCambioEstado(evento); $event.stopPropagation()">
+                          <i class="bi bi-check-circle"></i> Aceptar
+                        </button>
+                      } @else {
+                        <button 
+                          class="btn btn-warning text-dark flex-grow-1 d-inline-flex align-items-center justify-content-center gap-1"
+                          (click)="confirmarCambioEstado(evento); $event.stopPropagation()">
+                          <i class="bi bi-x-circle"></i> Cancelar
+                        </button>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Paginación -->
+          <div class="d-flex justify-content-end align-items-center mt-3">
+            @if (!page.empty) {
+              <div class="d-flex flex-column align-items-end">
+                <nav>
+                  <ul class="pagination mb-0">
+                    <li class="page-item" [class.disabled]="page.first">
+                      <a class="page-link" href="#" (click)="$event.preventDefault(); cambiarPagina(page.number - 1)">Anterior</a>
+                    </li>
+                    <li class="page-item active">
+                      <a class="page-link" href="#">{{ page.number + 1 }}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="page.last">
+                      <a class="page-link" href="#" (click)="$event.preventDefault(); cambiarPagina(page.number + 1)">Siguiente</a>
+                    </li>
+                  </ul>
+                </nav>
+                <div class="text-muted small mt-1">
+                  Página {{ page.number + 1 }} de {{ page.totalPages }} ({{ page.totalElements }} eventos)
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </main>
+  </div>
+
+  <app-footer></app-footer>
+</div>
+<app-modal-error #modalError></app-modal-error>
+<app-modal-exito #modalExito></app-modal-exito>
+<app-modal-confirmar #modalConfirmarCambio (confirmar)="cambiarEstado($event)"></app-modal-confirmar>
+<app-modal-confirmar #modalConfirmarEliminacion (confirmar)="eliminarEvento($event)"></app-modal-confirmar>

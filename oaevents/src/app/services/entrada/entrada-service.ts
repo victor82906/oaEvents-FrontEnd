@@ -39,6 +39,10 @@ export class EntradaService {
     return this.http.get<Page<EntradaOutputDto>>(this.urlEntrada + '/comprador/' + compradorId + '/page', { params });
   }
 
+  findByCompradorIdAndEventoId(compradorId: number, eventoId: number): Observable<EntradaOutputDto[]> {
+    return this.http.get<EntradaOutputDto[]>(this.urlEntrada + '/comprador/' + compradorId + '/evento/' + eventoId);
+  }
+
   findById(id: number): Observable<EntradaOutputDto> {
     return this.http.get<EntradaOutputDto>(this.urlEntrada + '/' + id);
   }
@@ -51,8 +55,8 @@ export class EntradaService {
     return this.http.post<number[]>(this.urlEntrada + '/comprar', entrada);
   }
 
-  descargarEntrada(id: number): any {
-    return this.http.get<any>(this.urlEntrada + id + '/descargar');
+  descargarEntrada(id: number): Observable<Blob> {
+    return this.http.get(this.urlEntrada + '/' + id + '/descargar', { responseType: 'blob' });
   }
 
   save(entrada: EntradaInputDto): Observable<EntradaOutputDto> {

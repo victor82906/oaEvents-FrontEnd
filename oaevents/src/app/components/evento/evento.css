@@ -1,0 +1,128 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  background-color: var(--bg-color);
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+.bg-secondary-custom {
+  background-color: var(--secondary-color);
+}
+
+.text-secondary-custom {
+  color: var(--secondary-color);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  min-height: 300px;
+}
+.spinner {
+  border: 6px solid var(--input-border-color);
+  border-top: 6px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hero con imagen difuminada */
+.evento-hero {
+  width: 100%;
+  height: 55vh;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* CSS mask para difuminar por abajo */
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.evento-info-container {
+  margin-top: -100px; /* Superpone el texto sobre el final del difuminado */
+  position: relative;
+  z-index: 2;
+}
+
+.evento-titulo {
+  font-family: var(--font-primary);
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.evento-fecha-hora {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.evento-descripcion {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 800px;
+  color: #495057;
+}
+
+/* Mapa */
+.aspect-ratio-box {
+  position: relative;
+  width: 100%;
+  padding-bottom: 70%;
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.aspect-ratio-box svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.zona-polygon {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.zona-polygon:hover {
+  opacity: 0.85;
+}
+
+.zona-texto {
+  font-family: var(--font-primary);
+  font-size: 30px;
+  font-weight: 700;
+  fill: white;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .evento-titulo {
+    font-size: 2.2rem;
+  }
+  .evento-hero {
+    height: 40vh;
+  }
+  .evento-info-container {
+    margin-top: -60px;
+  }
+}

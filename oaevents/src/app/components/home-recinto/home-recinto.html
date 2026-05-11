@@ -1,13 +1,47 @@
-<div class="admin-layout-container">
+<div class="layout-container">
   <app-cabecera></app-cabecera>
 
-  <div class="admin-body">
-    <app-panel-administracion></app-panel-administracion>
+  <main class="main-content">
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">PAGINA DE ADMINISTRACION OAEVENTS</h1>
+      </div>
+    </div>
 
-    <main class="admin-content">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+    <!-- Info Section Recinto -->
+    <div class="bg-primary-custom py-5">
+      <div class="container text-center py-4">
+        <h2 class="mb-5 fw-bold section-title section-title-white">Panel de Administración Olivo Arena</h2>
+        
+        <div class="info-grid">
+          <div class="info-item d-flex flex-column align-items-center p-4">
+            <span class="material-symbols-outlined info-icon mb-3">group</span>
+            <h3 class="mb-3 fs-4 fw-bold">Administración de usuarios</h3>
+            <p class="m-0 text-white">Administra los compradores, validadores y usuarios del sistema.</p>
+          </div>
+          <div class="info-item d-flex flex-column align-items-center p-4">
+            <span class="material-symbols-outlined info-icon mb-3">store</span>
+            <h3 class="mb-3 fs-4 fw-bold">Supervisión de Empresas</h3>
+            <p class="m-0 text-white">Supervisa y gestiona las cuentas de las empresas organizadoras.</p>
+          </div>
+          <div class="info-item d-flex flex-column align-items-center p-4">
+            <span class="material-symbols-outlined info-icon mb-3">fact_check</span>
+            <h3 class="mb-3 fs-4 fw-bold">Control de eventos</h3>
+            <p class="m-0 text-white"><strong>Control de eventos</strong> (aceptar, rechazar propuestas de empresas...).</p>
+          </div>
+          <div class="info-item d-flex flex-column align-items-center p-4">
+            <span class="material-symbols-outlined info-icon mb-3">forum</span>
+            <h3 class="mb-3 fs-4 fw-bold">Gestión de eventos por chat</h3>
+            <p class="m-0 text-white">Comunícate <strong>directamente con los organizadores</strong> mediante el chat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </main>
 
   <app-footer></app-footer>
 </div>

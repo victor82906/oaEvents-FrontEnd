@@ -26,26 +26,29 @@ export class EventoService {
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/page', { params });
   }
 
-  findAllAceptadosPaged(page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
+  findAllAceptadosPaged(page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort);
 
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/aceptados/page', { params });
   }
 
-  findAllPendientesPaged(page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
+  findAllPendientesPaged(page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort);
 
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/pendientes/page', { params });
   }
 
-  findByEmpresaIdPaged(empresaId: number, page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
+  findByEmpresaIdPaged(empresaId: number, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort);
 
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/empresa/' + empresaId + '/page', { params });
   }
@@ -75,13 +78,24 @@ export class EventoService {
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/buscar/titulo/page', { params });
   }
 
-  findByEmpresaIdAndTituloPaged(empresaId: number, titulo: string, page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
+  findByEmpresaIdAndTituloPaged(empresaId: number, titulo: string, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
     let params = new HttpParams()
       .set('titulo', titulo)
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort);
 
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/empresa/' + empresaId + '/buscar/titulo/page', { params });
+  }
+
+  findByCompradorIdAndTituloPaged(compradorId: number, titulo: string, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
+    let params = new HttpParams()
+      .set('titulo', titulo)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', sort);
+
+    return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/comprador/' + compradorId + '/buscar/titulo/page', { params });
   }
 
   findByFechasPaged(fechaInicio: string, fechaFin: string, page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
@@ -108,6 +122,10 @@ export class EventoService {
     return this.http.get<EventoOutputDto>(this.urlEvento + '/' + id);
   }
 
+  entradasVendidas(id: number): Observable<number> {
+    return this.http.get<number>(this.urlEvento + '/' + id + '/asistencia');
+  }
+  
   save(evento: EventoInputDto): Observable<EventoOutputDto> {
     return this.http.post<EventoOutputDto>(this.urlEvento, evento);
   }

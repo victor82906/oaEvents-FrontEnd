@@ -1,4 +1,17 @@
-<div class="sidebar-container">
+<!-- Backdrop (fondo oscuro semitransparente) que se muestra cuando el panel está abierto -->
+@if (isOpen) {
+  <div class="panel-backdrop" (click)="togglePanel()"></div>
+}
+
+<!-- Botón flotante para abrir/cerrar el panel -->
+<button class="btn-toggle-panel" (click)="togglePanel()" [class.abierto]="isOpen">
+  <span class="material-symbols-outlined">
+    {{ isOpen ? 'menu_open' : 'menu' }}
+  </span>
+</button>
+
+<!-- Panel lateral desplegable -->
+<div class="sidebar-container" [class.abierto]="isOpen">
   <div class="sidebar-logo">
     <a routerLink="/">
       <img src="/logo-grande-oaevents-negro.png" alt="AOEvents Logo" class="logo-img">
@@ -11,7 +24,8 @@
         <a
           [routerLink]="link.path"
           routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact: true}">
+          [routerLinkActiveOptions]="{exact: true}"
+          (click)="togglePanel()"> <!-- Cerrar panel al navegar -->
           <span class="material-symbols-outlined">{{ link.icon }}</span>
           <span>{{ link.label }}</span>
         </a>
