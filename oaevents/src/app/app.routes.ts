@@ -17,6 +17,7 @@ import {RegistroValidador} from './components/registro-validador/registro-valida
 import {EditarValidador} from './components/editar-validador/editar-validador';
 import {BuscarValidador} from './components/buscar-validador/buscar-validador';
 import {CrearEvento} from './components/crear-evento/crear-evento';
+import {EditarEvento} from './components/editar-evento/editar-evento';
 import {TipoEvento} from './components/tipo-evento/tipo-evento';
 import {CrearTipoEvento} from './components/crear-tipo-evento/crear-tipo-evento';
 import {EventosComprador} from './components/eventos-comprador/eventos-comprador';
@@ -41,6 +42,7 @@ export const routes: Routes = [
   { path: "registro-empresa", component: RegistroEmpresa },
   { path: "registro-validador", component: RegistroValidador, canActivate: [rolGuard], data: { roles: ['RECINTO'] }},
   { path: "crear-evento", component: CrearEvento, canActivate: [rolGuard], data: { roles: ['RECINTO', 'EMPRESA'] }},
+  { path: "editar-evento", component: EditarEvento, canActivate: [rolGuard], data: { roles: ['RECINTO', 'EMPRESA'] }},
   { path: "editar-comprador", component: EditarComprador, canActivate: [rolGuard], data: { roles: ['COMPRADOR', 'RECINTO'] }},
   { path: "editar-empresa", component: EditarEmpresa, canActivate: [rolGuard], data: { roles: ['EMPRESA', 'RECINTO'] }},
   { path: "editar-recinto", component: EditarRecinto, canActivate: [rolGuard], data: { roles: ['RECINTO'] }},

@@ -50,7 +50,7 @@ export class ChatService {
     return this.http.get<Page<ChatOutputDto>>(`${this.urlChat}/conversacion/${emisorId}/${receptorId}`, { params });
   }
 
-  conectar() {
+  conectar(usuarioId: number) {
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(this.wsUrl),
       reconnectDelay: 5000,
@@ -58,7 +58,7 @@ export class ChatService {
     });
 
     this.stompClient.onConnect = () => {
-      this.stompClient?.subscribe('/user/queue/mensajes', (message: Message) => {
+      this.stompClient?.subscribe(`/topic/mensajes/${usuarioId}`, (message: Message) => {
         if (message.body) {
           const mensajeRecibido: ChatOutputDto = JSON.parse(message.body);
           this.mensajesNuevosSubject.next(mensajeRecibido);

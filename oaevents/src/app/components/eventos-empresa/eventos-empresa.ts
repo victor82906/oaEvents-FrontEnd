@@ -91,6 +91,10 @@ export class EventosEmpresa implements OnInit {
     this.router.navigate(['/evento'], { queryParams: { id } });
   }
 
+  editarEvento(id: number): void {
+    this.router.navigate(['/editar-evento'], { queryParams: { id: id } });
+  }
+
   confirmarEliminacion(id: number): void {
     this.modalConfirmarEliminacion.abrirModal(
       'Eliminar Evento',

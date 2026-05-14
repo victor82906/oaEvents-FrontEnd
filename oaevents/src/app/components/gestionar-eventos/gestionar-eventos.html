@@ -48,6 +48,12 @@
                 
                 <div class="mt-auto d-flex gap-2">
                   <button 
+                    class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center px-3"
+                    title="Editar"
+                    (click)="editarEvento(evento.id); $event.stopPropagation()">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button 
                     class="btn btn-outline-danger flex-grow-1 d-inline-flex align-items-center justify-content-center gap-1"
                     (click)="confirmarEliminacion(evento.id); $event.stopPropagation()">
                     <i class="bi bi-trash"></i> Eliminar

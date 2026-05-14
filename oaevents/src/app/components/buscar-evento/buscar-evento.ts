@@ -83,6 +83,10 @@ export class BuscarEvento implements OnInit {
     this.router.navigate(['/evento'], { queryParams: { id: id } });
   }
 
+  editarEvento(id: number): void {
+    this.router.navigate(['/editar-evento'], { queryParams: { id: id } });
+  }
+
   // Acciones
   confirmarCambioEstado(evento: EventoOutputDto): void {
     const accion = evento.aceptado ? 'Cancelar' : 'Aceptar';

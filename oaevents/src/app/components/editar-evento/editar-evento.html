@@ -1,0 +1,66 @@
+<div class="layout-container">
+  <app-cabecera></app-cabecera>
+
+  <main class="main-content container-fluid py-4">
+    <div class="row w-100 justify-content-center px-lg-5 g-4">
+
+      <div class="col-lg-5 col-md-12 d-flex">
+        <div class="card p-4 p-md-5 shadow-lg edit-card w-100 position-relative">
+
+          @if (cargando) {
+            <div class="spinner-overlay">
+              <div class="spinner"></div>
+            </div>
+          }
+
+          <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary-custom">Editar Evento</h2>
+            <p class="text-muted">Modifica los detalles principales del evento</p>
+          </div>
+
+          <form [formGroup]="editarEvento" (ngSubmit)="guardarEvento()">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Título del Evento</label>
+              <input type="text" class="form-control custom-input" formControlName="titulo">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Fecha y Hora</label>
+              <input type="datetime-local" class="form-control custom-input" formControlName="fecha">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Descripción</label>
+              <textarea class="form-control custom-input" formControlName="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Cartel del Evento</label>
+              <input type="file" #fileInput class="form-control custom-input" accept="image/*" (change)="previsualizarFoto($event)">
+
+              @if (imgSeleccionada) {
+                <div class="mt-3 text-center">
+                  <img [src]="imgSeleccionada" alt="Previsualización" class="img-preview-square shadow-sm">
+                </div>
+              }
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary-custom w-100 py-2 fw-bold"
+              [disabled]="editarEvento.invalid || cargando">
+              GUARDAR CAMBIOS
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+
+  <app-modal-error #modalError></app-modal-error>
+  <app-modal-exito #modalExito></app-modal-exito>
+</div>

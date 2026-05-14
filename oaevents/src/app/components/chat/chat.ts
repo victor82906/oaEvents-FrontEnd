@@ -49,20 +49,20 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
     this.emisorId = this.authService.getId();
     this.route.queryParams.subscribe(params => {
-      this.receptorId = Number(params['receptorId']);
+      this.receptorId = params['receptorId'];
     });
 
     this.cargarUsuario();
     this.cargarConversacion();
 
-    this.chatService.conectar();
+    this.chatService.conectar(this.emisorId);
 
     this.mensajesSub = this.chatService.getMensajesNuevos().subscribe(msg => {
       if (
-        (msg.emisor_id === this.emisorId && msg.receptor_id === this.receptorId) ||
-        (msg.emisor_id === this.receptorId && msg.receptor_id === this.emisorId)
+        (msg.emisor_id == this.emisorId && msg.receptor_id == this.receptorId) ||
+        (msg.emisor_id == this.receptorId && msg.receptor_id == this.emisorId)
       ) {
-        this.mensajes.push(msg);
+        this.mensajes = [...this.mensajes, msg];
         this.debeScrollar = true;
         this.cdr.markForCheck();
       }
@@ -148,7 +148,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   esMio(msg: ChatOutputDto): boolean {
-    return msg.emisor_id === this.emisorId;
+    return msg.emisor_id == this.emisorId;
   }
 
   scrollAlFinal(): void {
