@@ -33,7 +33,7 @@ export class EventosComprador implements OnInit {
   // --- Búsqueda y Ordenación ---
   terminoBusqueda: string = '';
   campoOrden: string = 'fecha';
-  direccionOrden: string = 'asc';
+  direccionOrden: string = 'desc';
 
   @ViewChild('modalError') modalError!: ModalError;
 
@@ -55,7 +55,7 @@ export class EventosComprador implements OnInit {
   cargarEventos(page: number = 0): void {
     this.cargando = true;
     const sort = `${this.campoOrden},${this.direccionOrden}`;
-    this.eventoService.findByCompradorIdAndTituloPaged(this.compradorId, this.terminoBusqueda, page, 6, sort)
+    this.eventoService.findByCompradorIdAndTituloPaged(this.compradorId, this.terminoBusqueda, page, 8, sort)
       .subscribe({
         next: (respuesta) => {
           this.page = respuesta;

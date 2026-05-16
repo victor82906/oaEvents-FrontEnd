@@ -55,7 +55,7 @@ export class BuscarEvento implements OnInit {
   cargarEventos(numeroPagina: number = 0): void {
     this.cargando = true;
 
-    this.eventoService.findByTituloPaged(this.terminoBusqueda, numeroPagina, 6).subscribe({
+    this.eventoService.findByTituloPaged(this.terminoBusqueda, numeroPagina, 8).subscribe({
       next: (page) => {
         this.page = page;
         this.cargando = false;

@@ -69,7 +69,7 @@ export class GestionarEventos implements OnInit {
         }
       });
     } else {
-      this.eventoService.findAllPendientesPaged(numeroPagina, 6, 'fecha,desc').subscribe({
+      this.eventoService.findAllPendientesPaged(numeroPagina, 8, 'fecha,desc').subscribe({
         next: (page) => {
           this.page = page;
           this.cargando = false;

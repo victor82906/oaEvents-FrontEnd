@@ -69,11 +69,12 @@ export class EventoService {
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/empresa/' + empresaId + '/pendientes/page', { params });
   }
 
-  findByTituloPaged(titulo: string, page: number = 0, size: number = 10): Observable<Page<EventoOutputDto>> {
+  findByTituloPaged(titulo: string, page: number = 0, size: number = 10, sort: string = 'fecha,desc'): Observable<Page<EventoOutputDto>> {
     let params = new HttpParams()
       .set('titulo', titulo)
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', sort);
 
     return this.http.get<Page<EventoOutputDto>>(this.urlEvento + '/buscar/titulo/page', { params });
   }
